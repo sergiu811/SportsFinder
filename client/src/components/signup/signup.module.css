@@ -1,0 +1,32 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 500px;
+  margin: auto;
+}
+.background {
+  min-height: 100vh;
+  background-image: url("../../assets/background2.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+
+.title {
+  color: white;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.logo {
+  max-width: 220px;
+  margin-bottom: 40px;
+}
+.backendError {
+  color: red;
+  font-weight: 600;
+}
