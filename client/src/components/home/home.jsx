@@ -6,34 +6,32 @@ import { AccountContext } from "../account-context";
 import { useEffect } from "react";
 import useSocketSetup from "./useSocketSetup";
 
-export const FriendsContext = createContext();
+export const FriendContext = createContext();
+export const MessagesContext = createContext();
 export const SocketContext = createContext();
 
 const HomeComponent = () => {
-  const [friendsList, setFriendsList] = useState([
+  const [friendList, setFriendList] = useState([
     { username: "Sergiu", status: false },
     { username: "Maria", status: true },
   ]);
+  const [messages, setMessages] = useState([]);
+  const [friendIndex, setFriendIndex] = useState(0);
+
   const { user } = useContext(AccountContext);
   const [socket, setSocket] = useState(() => socketConn(user));
-
   useEffect(() => {
-    setSocket(() => {
-      socketConn(user);
-      console.log(socket);
-    });
+    setSocket(() => socketConn(user));
   }, [user]);
 
-  useSocketSetup(socket);
+  useSocketSetup(setFriendList, setMessages, socket);
 
   return (
-    <FriendsContext.Provider value={{ friendsList, setFriendsList }}>
+    <FriendContext.Provider value={{ friendList, setFriendList }}>
       <SocketContext.Provider value={{ socket }}>
-        <h1>home</h1>
-
         <FriendsChat></FriendsChat>
       </SocketContext.Provider>
-    </FriendsContext.Provider>
+    </FriendContext.Provider>
   );
 };
 

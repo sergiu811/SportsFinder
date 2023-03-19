@@ -34,7 +34,6 @@ const SignUp = () => {
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
             const vals = { ...values };
-            console.log(vals);
             fetch("http://localhost:5001/auth/signup", {
               method: "POST",
               credentials: "include",

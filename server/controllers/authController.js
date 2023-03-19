@@ -8,7 +8,6 @@ require("dotenv").config();
 
 module.exports.handleLogin = (req, res) => {
   const token = getJwt(req);
-
   if (!token) {
     res.json({ loggedIn: false });
     return;
@@ -19,13 +18,13 @@ module.exports.handleLogin = (req, res) => {
       res.json({ loggedIn: true, token });
     })
     .catch((err) => {
-      console.log(err);
       res.json({ loggedIn: false });
     });
 };
+
 module.exports.attemptLogin = async (req, res) => {
   const potentialLogin = await pool.query(
-    "SELECT playerid , username , passwordhash FROM player p WHERE p.username=$1 ",
+    "SELECT playerid , username , passwordhash, userid FROM player p WHERE p.username=$1 ",
     [req.body.username]
   );
   if (potentialLogin.rowCount > 0) {
@@ -33,6 +32,7 @@ module.exports.attemptLogin = async (req, res) => {
       req.body.password,
       potentialLogin.rows[0].passwordhash
     );
+
     if (isSamePassword) {
       jwtSign(
         {

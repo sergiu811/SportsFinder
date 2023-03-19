@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import Tab from "react-bootstrap/Tab";
-import { FriendsContext } from "../home/home";
+import { FriendContext } from "../home/home";
 import Chat from "./chat";
 
 const ChatList = () => {
-  const { friendsList } = useContext(FriendsContext);
-  return friendsList.length > 0 ? (
+  const { friendList } = useContext(FriendContext);
+  return friendList.length > 0 ? (
     <Tab.Content>
-      {friendsList.map((friend) => {
+      {friendList.map((friend) => {
         return <Chat event={friend.username} key={friend.username}></Chat>;
       })}
     </Tab.Content>

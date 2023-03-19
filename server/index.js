@@ -6,10 +6,13 @@ const authRouter = require("./routers/authRouter");
 const helmet = require("helmet");
 const { corsConfig } = require("./controllers/serverController");
 const { authorizeUser } = require("./controllers/socketController");
+const addFriend = require("./controllers/addFriend");
+const initializeUser = require("./controllers/initializeUser");
+const onDisconnect = require("./controllers/onDisconnect");
 const server = require("http").Server(app);
 require("dotenv").config();
 
-const io = new Server(server, {
+const socket = new Server(server, {
   cors: corsConfig,
 });
 
@@ -18,10 +21,14 @@ app.use(cors(corsConfig));
 app.use(express.json());
 app.use("/auth", authRouter);
 
-io.use(authorizeUser);
-io.on("connection", (socket) => {
-  console.log(socket.id);
-  console.log(socket.request.token);
+socket.use(authorizeUser);
+socket.on("connection", (socket) => {
+  initializeUser(socket);
+  socket.on("add_friend", (friendName, cb) => {
+    addFriend(socket, friendName, cb);
+  });
+
+  socket.on("disconnecting", () => onDisconnect(socket));
 });
 
 server.listen(5001, () => {

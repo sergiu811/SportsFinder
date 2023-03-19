@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { FriendContext, SocketContext } from "../home/home";
 
 const validationSchema = Yup.object({
   username: Yup.string()
@@ -14,6 +15,14 @@ const validationSchema = Yup.object({
 });
 
 const AddFriendModal = ({ handleClose, show }) => {
+  const { setFriendList } = useContext(FriendContext);
+  const { socket } = useContext({ ...SocketContext });
+  console.log(socket);
+  const closeModal = useCallback(() => {
+    setError("");
+    handleClose();
+  }, [handleClose]);
+  const [error, setError] = useState("");
   return (
     <>
       <Modal centered show={show} onHide={handleClose}>
@@ -28,13 +37,24 @@ const AddFriendModal = ({ handleClose, show }) => {
           <Modal.Title style={{ color: "white" }}>Add friend</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ background: "black" }}>
+          <h3 style={{ color: "red", textAlign: "center" }}>{error}</h3>
           <Formik
             initialValues={{ username: "" }}
             validationSchema={validationSchema}
-            onSubmit={(values, actions) => {
-              handleClose();
-              console.log(values);
-              actions.resetForm();
+            onSubmit={(values) => {
+              socket.emit(
+                "add_friend",
+                values.username,
+                ({ errorMsg, done, newFriend }) => {
+                  console.log(done);
+                  if (done) {
+                    setFriendList((c) => [newFriend, ...c]);
+                    closeModal();
+                    return;
+                  }
+                  setError(errorMsg);
+                }
+              );
             }}
           >
             {({

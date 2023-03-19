@@ -1,23 +1,47 @@
 import { useContext, useEffect } from "react";
 import { AccountContext } from "../account-context";
-
-const useSocketSetup = (socket) => {
+const useSocketSetup = (setFriendList, setMessages, socket) => {
   const { setUser } = useContext(AccountContext);
+
   useEffect(() => {
     socket.connect();
 
-    socket.on("connect", () => {
-      console.log("connected to server");
+    socket.on("friends", (friendList) => {
+      console.log(friendList);
+      setFriendList(friendList);
+    });
+
+    socket.on("messages", (messages) => {
+      setMessages(messages);
+    });
+
+    socket.on("dm", (message) => {
+      setMessages((prevMsgs) => [message, ...prevMsgs]);
+    });
+
+    socket.on("connected", (status, username) => {
+      setFriendList((prevFriends) => {
+        return [...prevFriends].map((friend) => {
+          if (friend.username === username) {
+            friend.connected = status;
+          }
+          return friend;
+        });
+      });
     });
 
     socket.on("connect_error", () => {
       setUser({ loggedIn: false });
-      console.log("error");
     });
+
     return () => {
-      socket.disconnect();
+      socket.off("connect_error");
+      socket.off("connected");
+      socket.off("friends");
+      socket.off("messages");
+      socket.off("dm");
     };
-  }, [setUser]);
+  }, [setUser, setFriendList, setMessages, socket]);
 };
 
 export default useSocketSetup;
