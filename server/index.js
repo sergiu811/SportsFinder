@@ -5,10 +5,10 @@ const { Server } = require("socket.io");
 const authRouter = require("./routers/authRouter");
 const helmet = require("helmet");
 const { corsConfig } = require("./controllers/serverController");
-const { authorizeUser } = require("./controllers/socketController");
-const addFriend = require("./controllers/addFriend");
-const initializeUser = require("./controllers/initializeUser");
-const onDisconnect = require("./controllers/onDisconnect");
+const { authorizeUser } = require("./controllers/authorizeUser");
+const addFriend = require("./controllers/socketControllers/addFriend");
+const initializeUser = require("./controllers/socketControllers/initializeUser");
+const onDisconnect = require("./controllers/socketControllers/onDisconnect");
 const server = require("http").Server(app);
 require("dotenv").config();
 

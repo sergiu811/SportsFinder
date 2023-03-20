@@ -17,7 +17,6 @@ const validationSchema = Yup.object({
 const AddFriendModal = ({ handleClose, show }) => {
   const { setFriendList } = useContext(FriendContext);
   const { socket } = useContext({ ...SocketContext });
-  console.log(socket);
   const closeModal = useCallback(() => {
     setError("");
     handleClose();

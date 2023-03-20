@@ -20,8 +20,12 @@ const FriendsChat = () => {
   return (
     <Fragment>
       <h1>FriendsChat</h1>
-      <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
+      <Button
+        variant="primary"
+        style={{ marginBottom: "10px" }}
+        onClick={handleShow}
+      >
+        Add Friend
       </Button>
       <Tab.Container id="left-tabs" defaultActiveKey={friendList[0]?.username}>
         <Row>

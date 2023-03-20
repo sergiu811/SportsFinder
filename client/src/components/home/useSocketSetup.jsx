@@ -7,7 +7,6 @@ const useSocketSetup = (setFriendList, setMessages, socket) => {
     socket.connect();
 
     socket.on("friends", (friendList) => {
-      console.log(friendList);
       setFriendList(friendList);
     });
 

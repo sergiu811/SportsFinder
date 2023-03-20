@@ -1,4 +1,4 @@
-const redisClient = require("../redis");
+const redisClient = require("../../redis");
 
 module.exports.rateLimiter =
   (secondsLimit, attemptLimit) => async (req, res, next) => {

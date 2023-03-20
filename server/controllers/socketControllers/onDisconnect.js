@@ -1,4 +1,4 @@
-const redisClient = require("../redis");
+const redisClient = require("../../redis");
 const parseFriendList = require("./parseFriendList");
 
 const onDisconnect = async (socket) => {

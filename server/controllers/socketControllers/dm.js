@@ -1,4 +1,4 @@
-const redisClient = require("../redis");
+const redisClient = require("../../redis");
 
 const dm = async (socket, message) => {
   message.from = socket.user.userid;

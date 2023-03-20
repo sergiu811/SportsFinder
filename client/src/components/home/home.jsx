@@ -23,9 +23,7 @@ const HomeComponent = () => {
   useEffect(() => {
     setSocket(() => socketConn(user));
   }, [user]);
-
   useSocketSetup(setFriendList, setMessages, socket);
-
   return (
     <FriendContext.Provider value={{ friendList, setFriendList }}>
       <SocketContext.Provider value={{ socket }}>

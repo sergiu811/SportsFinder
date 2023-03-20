@@ -1,4 +1,4 @@
-const redisClient = require("../redis");
+const redisClient = require("../../redis");
 
 const addFriend = async (socket, friendName, cb) => {
   if (friendName === socket.user.username) {
