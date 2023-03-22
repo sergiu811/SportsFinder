@@ -5,6 +5,7 @@ import Login from "../login/login";
 import PrivateRoutes from "../private-routes";
 import SignUp from "../signup/signup";
 import HomeComponent from "../home/home";
+import SocializeCompoenent from "../socialize/socializeComponent";
 const Views = () => {
   const { user } = useContext(AccountContext);
   return user.loggedIn === null ? (
@@ -15,6 +16,10 @@ const Views = () => {
       <Route path="/register" element={<SignUp></SignUp>}></Route>
       <Route element={<PrivateRoutes></PrivateRoutes>}>
         <Route path="/home" element={<HomeComponent></HomeComponent>}></Route>
+        <Route
+          path="friends"
+          element={<SocializeCompoenent></SocializeCompoenent>}
+        ></Route>
       </Route>
       <Route path="*" element={<Login></Login>}></Route>
     </Routes>

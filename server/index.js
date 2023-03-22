@@ -9,6 +9,7 @@ const { authorizeUser } = require("./controllers/authorizeUser");
 const addFriend = require("./controllers/socketControllers/addFriend");
 const initializeUser = require("./controllers/socketControllers/initializeUser");
 const onDisconnect = require("./controllers/socketControllers/onDisconnect");
+const dm = require("./controllers/socketControllers/dm");
 const server = require("http").Server(app);
 require("dotenv").config();
 
@@ -27,7 +28,7 @@ socket.on("connection", (socket) => {
   socket.on("add_friend", (friendName, cb) => {
     addFriend(socket, friendName, cb);
   });
-
+  socket.on("dm", (message) => dm(socket, message));
   socket.on("disconnecting", () => onDisconnect(socket));
 });
 
