@@ -19,13 +19,15 @@ const ChatBox = ({ userid }) => {
         message: Yup.string().min(1).max(255),
       })}
       onSubmit={(values, actions) => {
-        const message = { to: userid, from: null, content: values.message };
-        socket.emit("dm", message);
-        setMessages((prevMsgs) => [message, ...prevMsgs]);
-        actions.resetForm();
+        if (values.message != "") {
+          const message = { to: userid, from: null, content: values.message };
+          socket.emit("dm", message);
+          setMessages((prevMsgs) => [message, ...prevMsgs]);
+          actions.resetForm();
+        }
       }}
     >
-      <HStack as={Form} w="100%" pb="1.4rem" px="1.4rem">
+      <HStack as={Form} w="100%" pb="10px" px="1.4rem">
         <Input
           as={Field}
           name="message"
@@ -33,7 +35,7 @@ const ChatBox = ({ userid }) => {
           size="lg"
           autoComplete="off"
         />
-        <Button type="submit" size="lg" colorScheme="teal">
+        <Button type="submit" size="lg" colorScheme="gray">
           Send
         </Button>
       </HStack>

@@ -7,10 +7,9 @@ import {
   TabPanels,
   Tabs,
   Tab,
-  Text,
   VStack,
   HStack,
-  Button,
+  Icon,
   useDisclosure,
 } from "@chakra-ui/react";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -19,14 +18,17 @@ import { AccountContext } from "../account-context";
 import { ChatIcon, AtSignIcon } from "@chakra-ui/icons";
 import FriendsChatComponent from "../friends-chat/friends-chat-component";
 import AddFriendModal from "../add-friend-modal/add-friend-modal";
-import RequestCard from "./requestCard";
 import FriendRequests from "./friendRequests";
+import { FaUserFriends, FaUserPlus, FaBell } from "react-icons/fa";
+import { HiChatBubbleLeftRight } from "react-icons/hi2";
+
 export const FriendContext = createContext();
 export const MessagesContext = createContext();
 export const SocketContext = createContext();
 
 const SocializeCompoenent = () => {
   const [friendList, setFriendList] = useState([]);
+  const [friendRequestList, setFriendRequestList] = useState([]);
   const [messages, setMessages] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -35,41 +37,59 @@ const SocializeCompoenent = () => {
   useEffect(() => {
     setSocket(() => socketConn(user));
   }, [user]);
-  useSocketSetup(setFriendList, setMessages, socket);
+  useSocketSetup(
+    setFriendList,
+    setFriendRequestList,
+    friendList,
+    friendRequestList,
+    setMessages,
+    socket
+  );
+
   return (
-    <FriendContext.Provider value={{ friendList, setFriendList }}>
+    <FriendContext.Provider
+      value={{
+        friendList,
+        setFriendList,
+        friendRequestList,
+        setFriendRequestList,
+      }}
+    >
       <SocketContext.Provider value={{ socket }}>
-        <Grid as={Tabs} templateColumns={"2fr 9fr"}>
-          <GridItem borderRight="1px solid gray">
-            <VStack as={TabList}>
+        <Grid as={Tabs} templateColumns={"0.6fr 9fr"} w="100%">
+          <GridItem
+            borderRadius="10px"
+            m="10px"
+            mt="1vh"
+            boxShadow="1px 3px 7px 1px"
+          >
+            <VStack as={TabList} h="96vh" border="none" pt="45px">
               <Tab>
-                <HStack>
-                  <Text>Chat</Text>
-                  <ChatIcon />
-                </HStack>
+                <Icon width="30px" height="30px" as={HiChatBubbleLeftRight} />
               </Tab>
               <Tab>
-                <HStack>
-                  <Text>Friend Requests</Text>
-                  <ChatIcon />
-                </HStack>
+                <Icon width="30px" height="30px" as={FaUserFriends} />
               </Tab>
               <HStack onClick={onOpen}>
-                <Text>Add Friend</Text>
-                <AtSignIcon />
+                <Icon width="30px" height="30px" as={FaUserPlus} />
               </HStack>
             </VStack>
             <AddFriendModal isOpen={isOpen} onClose={onClose} />
           </GridItem>
-          <GridItem>
+          <GridItem
+            borderRadius="10px"
+            m="10px"
+            mt="1vh"
+            boxShadow="1px 3px 7px 1px"
+          >
             <TabPanels>
-              <TabPanel>
+              <TabPanel padding="0">
                 <MessagesContext.Provider value={{ messages, setMessages }}>
                   <FriendsChatComponent />
                 </MessagesContext.Provider>
               </TabPanel>
               <TabPanel>
-                <HStack height="100%">
+                <HStack>
                   <FriendRequests></FriendRequests>
                 </HStack>
               </TabPanel>

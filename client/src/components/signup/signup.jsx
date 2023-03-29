@@ -41,12 +41,11 @@ const SignUp = () => {
               body: JSON.stringify(vals),
             })
               .catch((err) => {
-                console.log(err);
                 return;
               })
               .then((res) => {
                 if (!res || !res.ok || res.status >= 400) {
-                  console.log("eroare");
+                  return;
                 }
                 return res.json();
               })
@@ -56,6 +55,7 @@ const SignUp = () => {
                 if (data.status) {
                   setError(data.status);
                 } else if (data.loggedIn) {
+                  localStorage.setItem("token", data.token);
                   navigate("/home");
                 }
               });

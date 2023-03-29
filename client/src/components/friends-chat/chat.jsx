@@ -1,4 +1,4 @@
-import { Text, VStack } from "@chakra-ui/layout";
+import { Text, VStack, Box } from "@chakra-ui/layout";
 import { TabPanel, TabPanels } from "@chakra-ui/tabs";
 import { useContext, useEffect, useRef } from "react";
 import ChatBox from "./chat-box";
@@ -6,6 +6,7 @@ import {
   FriendContext,
   MessagesContext,
 } from "../socialize/socializeComponent";
+import { Divider, Heading } from "@chakra-ui/layout";
 
 const Chat = ({ userid }) => {
   const { friendList } = useContext(FriendContext);
@@ -17,54 +18,54 @@ const Chat = ({ userid }) => {
   });
 
   return friendList.length > 0 ? (
-    <VStack h="100%" maxHeight="97vh" justify="end">
-      <TabPanels overflowY="scroll">
-        {friendList.map((friend) => (
-          <VStack
-            flexDir="column-reverse"
-            as={TabPanel}
-            key={`chat:${friend.username}`}
-            w="100%"
-          >
-            <div ref={bottomDiv} />
-            {messages
-              .filter(
-                (msg) => msg.to === friend.userid || msg.from === friend.userid
-              )
-              .map((message, idx) => (
-                <Text
-                  m={
-                    message.to === friend.userid
-                      ? "1rem 0 0 auto !important"
-                      : "1rem auto 0 0 !important"
-                  }
-                  maxW="50%"
-                  key={`msg:${friend.username}.${idx}`}
-                  fontSize="lg"
-                  bg={message.to === friend.userid ? "blue.100" : "gray.100"}
-                  color="gray.800"
-                  borderRadius="10px"
-                  p="0.5rem 1rem"
-                >
-                  {message.content}
-                </Text>
-              ))}
-          </VStack>
-        ))}
-      </TabPanels>
-      <ChatBox userid={userid} />
-    </VStack>
+    <>
+      <VStack maxHeight="inherit" justify="end" h="91vh">
+        <TabPanels overflowY="scroll">
+          {friendList.map((friend) => (
+            <VStack
+              flexDir="column-reverse"
+              as={TabPanel}
+              key={`chat:${friend.username}`}
+            >
+              <div ref={bottomDiv} />
+              {messages
+                .filter(
+                  (msg) =>
+                    msg.to === friend.userid || msg.from === friend.userid
+                )
+                .map((message, idx) => (
+                  <Text
+                    m={
+                      message.to === friend.userid
+                        ? "1rem 0 0 auto !important"
+                        : "1rem auto 0 0 !important"
+                    }
+                    maxW="50%"
+                    key={`msg:${friend.username}.${idx}`}
+                    fontSize="lg"
+                    bg={message.to === friend.userid ? "blue.100" : "gray.100"}
+                    color="gray.800"
+                    borderRadius="10px"
+                    p="0.5rem 1rem"
+                  >
+                    {message.content}
+                  </Text>
+                ))}
+            </VStack>
+          ))}
+        </TabPanels>
+        <ChatBox userid={userid} />
+      </VStack>
+    </>
   ) : (
-    <VStack
-      justify="center"
-      pt="5rem"
-      w="100%"
-      textAlign="center"
-      fontSize="lg"
-    >
+    <VStack justify="center" w="100%" textAlign="center" fontSize="lg">
       <TabPanels>
         <TabPanel>
-          <Text>No friend :( Click add friend to start chatting</Text>
+          <Box borderRadius="10px" boxShadow="1px 3px 7px 1px" p="20px">
+            <Heading size="sm" align="center">
+              No friends :(
+            </Heading>
+          </Box>
         </TabPanel>
       </TabPanels>
     </VStack>

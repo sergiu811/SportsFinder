@@ -9,6 +9,8 @@ const { authorizeUser } = require("./controllers/authorizeUser");
 const addFriend = require("./controllers/socketControllers/addFriend");
 const initializeUser = require("./controllers/socketControllers/initializeUser");
 const onDisconnect = require("./controllers/socketControllers/onDisconnect");
+const acceptFriendRequest = require("./controllers/socketControllers/acceptFriendRequest");
+const declineFriendRequest = require("./controllers/socketControllers/declineFriendRequest");
 const dm = require("./controllers/socketControllers/dm");
 const server = require("http").Server(app);
 require("dotenv").config();
@@ -25,10 +27,21 @@ app.use("/auth", authRouter);
 socket.use(authorizeUser);
 socket.on("connection", (socket) => {
   initializeUser(socket);
+
   socket.on("add_friend", (friendName, cb) => {
     addFriend(socket, friendName, cb);
   });
+
+  socket.on("requestDeclined", (friendName, cb) => {
+    declineFriendRequest(friendName, socket, cb);
+  });
+
   socket.on("dm", (message) => dm(socket, message));
+
+  socket.on("requestAccepted", (friendRequest, cb) => {
+    acceptFriendRequest(friendRequest, socket, cb);
+  });
+
   socket.on("disconnecting", () => onDisconnect(socket));
 });
 

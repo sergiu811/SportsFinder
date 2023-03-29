@@ -2,10 +2,12 @@ import { Button } from "@chakra-ui/button";
 import {
   Circle,
   Divider,
+  GridItem,
   Heading,
   HStack,
   Text,
   VStack,
+  Grid,
 } from "@chakra-ui/layout";
 import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
 import { Tab, TabList } from "@chakra-ui/tabs";
@@ -15,27 +17,38 @@ import { FriendContext } from "../socialize/socializeComponent";
 const FriendsChat = () => {
   const { friendList } = useContext(FriendContext);
   return (
-    <>
-      <VStack>
-        <HStack justify="space-evenly">
-          <Heading size="md">Chats</Heading>
-        </HStack>
-        <Divider />
-        <VStack as={TabList}>
-          {friendList.map((friend) => (
-            <HStack as={Tab} key={`friend:${friend}`}>
+    <VStack pt="20px">
+      <Heading size="md">Friends</Heading>
+      <Divider />
+      <VStack
+        as={TabList}
+        width="90%"
+        h="90vh"
+        overflowY="scroll"
+        border="none"
+      >
+        {friendList.map((friend) => (
+          <Grid
+            templateColumns="25% 75%"
+            width="90%"
+            as={Tab}
+            key={`friend:${friend.username}`}
+          >
+            <GridItem>
               <Avatar name={friend.username}>
                 <AvatarBadge
                   boxSize="1.25em"
-                  bg={friend.connected ? "green.700" : "red.500"}
+                  bg={friend.connected ? "green.400" : "red.500"}
                 />
               </Avatar>
+            </GridItem>
+            <GridItem>
               <Text>{friend.username}</Text>
-            </HStack>
-          ))}
-        </VStack>
+            </GridItem>
+          </Grid>
+        ))}
       </VStack>
-    </>
+    </VStack>
   );
 };
 

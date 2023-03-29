@@ -17,7 +17,15 @@ const initializeUser = async (socket) => {
     0,
     -1
   );
+
+  const friendRequestList = await redisClient.lrange(
+    `friendRequest:${socket.user.username}`,
+    0,
+    -1
+  );
   const parsedFriendList = await parseFriendList(friendList);
+  const parsedFriendRequestList = await parseFriendList(friendRequestList);
+
   const friendRooms = parsedFriendList.map((friend) => friend.userid);
 
   if (friendRooms.length > 0) {
@@ -25,6 +33,7 @@ const initializeUser = async (socket) => {
   }
 
   socket.emit("friends", parsedFriendList);
+  socket.emit("friendRequests", parsedFriendRequestList);
 
   const msgQuery = await redisClient.lrange(
     `chat:${socket.user.userid}`,

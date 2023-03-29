@@ -1,6 +1,13 @@
 import { useContext, useEffect } from "react";
 import { AccountContext } from "../account-context";
-const useSocketSetup = (setFriendList, setMessages, socket) => {
+const useSocketSetup = (
+  setFriendList,
+  setFriendRequestList,
+  friendList,
+  friendRequestList,
+  setMessages,
+  socket
+) => {
   const { setUser } = useContext(AccountContext);
 
   useEffect(() => {
@@ -8,6 +15,18 @@ const useSocketSetup = (setFriendList, setMessages, socket) => {
 
     socket.on("friends", (friendList) => {
       setFriendList(friendList);
+    });
+
+    socket.on("requestReceived", (newFriendRequest) => {
+      setFriendRequestList([newFriendRequest, ...friendRequestList]);
+    });
+
+    socket.on("friendRequests", (friendRequestList) => {
+      setFriendRequestList(friendRequestList);
+    });
+
+    socket.on("friendAdded", (newFriend) => {
+      setFriendList([newFriend, ...friendList]);
     });
 
     socket.on("messages", (messages) => {

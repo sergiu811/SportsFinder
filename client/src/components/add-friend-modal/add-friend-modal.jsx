@@ -6,7 +6,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@chakra-ui/modal";
-import { Button, Heading, ModalOverlay } from "@chakra-ui/react";
+import { Button, Divider, Heading, ModalOverlay } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useCallback, useContext, useState } from "react";
 import TextField from "../home/text-field";
@@ -14,7 +14,7 @@ import { FriendContext, SocketContext } from "../socialize/socializeComponent";
 const Yup = require("yup");
 
 const validationSchema = Yup.object({
-  username: Yup.string()
+  friendName: Yup.string()
     .required("Username required")
     .min(6, "Username too short")
     .max(28, "Username too long"),
@@ -25,9 +25,11 @@ const AddFriendModal = ({ isOpen, onClose }) => {
   const closeModal = useCallback(() => {
     setError("");
     onClose();
+    setButtonMessage("Send");
   }, [onClose]);
-  const { setFriendList } = useContext(FriendContext);
   const { socket } = useContext(SocketContext);
+  const [buttonMessage, setButtonMessage] = useState("Send");
+
   return (
     <Modal isOpen={isOpen} onClose={closeModal}>
       <ModalOverlay />
@@ -40,11 +42,12 @@ const AddFriendModal = ({ isOpen, onClose }) => {
             socket.emit(
               "add_friend",
               values.friendName,
-              ({ errorMsg, done, newFriend }) => {
+              ({ errorMsg, done }) => {
                 if (done) {
-                  setFriendList((c) => [newFriend, ...c]);
-                  closeModal();
-                  return;
+                  setButtonMessage("Sent");
+                  setTimeout(() => {
+                    setButtonMessage("Send");
+                  }, 1500);
                 }
                 setError(errorMsg);
               }
@@ -54,19 +57,21 @@ const AddFriendModal = ({ isOpen, onClose }) => {
         >
           <Form>
             <ModalBody>
-              <Heading fontSize="xl" color="red.500" textAlign="center">
+              <Heading fontSize="l" color="red.500" textAlign="left" p="2px">
                 {error}
               </Heading>
               <TextField
-                label="Friend's name"
                 placeholder="Enter friend's username.."
                 autoComplete="off"
                 name="friendName"
               />
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="blue" type="submit">
-                Submit
+              <Button
+                colorScheme={buttonMessage === "Send" ? "gray" : "green"}
+                type="submit"
+              >
+                {buttonMessage}
               </Button>
             </ModalFooter>
           </Form>

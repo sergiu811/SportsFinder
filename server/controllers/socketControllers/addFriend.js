@@ -6,6 +6,23 @@ const addFriend = async (socket, friendName, cb) => {
     return;
   }
   const friend = await redisClient.hgetall(`userid:${friendName}`);
+
+  const currentFriendRequestsSent = await redisClient.lrange(
+    `friendRequest:${friendName}`,
+    0,
+    -1
+  );
+
+  if (
+    currentFriendRequestsSent &&
+    currentFriendRequestsSent.indexOf(
+      `${socket.user.username}.${socket.user.userid}`
+    ) !== -1
+  ) {
+    cb({ done: false, errorMsg: "Friend request already sent!" });
+    return;
+  }
+
   const currentFriendList = await redisClient.lrange(
     `friends:${socket.user.username}`,
     0,
@@ -22,18 +39,18 @@ const addFriend = async (socket, friendName, cb) => {
     cb({ done: false, errorMsg: "Friend already added!" });
     return;
   }
-
   await redisClient.lpush(
-    `friends:${socket.user.username}`,
-    [friendName, friend.userid].join(".")
+    `friendRequest:${friendName}`,
+    [socket.user.username, socket.user.userid].join(".")
   );
 
-  const newFriend = {
-    username: friendName,
-    userid: friend.userid,
-    connected: friend.connected,
+  const newFriendRequest = {
+    username: socket.user.username,
+    userid: socket.user.userid,
+    connected: socket.user.connected,
   };
-  cb({ done: true, newFriend });
+  cb({ done: true });
+  socket.to(friend.userid).emit("requestReceived", newFriendRequest);
 };
 
 module.exports = addFriend;
