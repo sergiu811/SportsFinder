@@ -1,0 +1,29 @@
+.active {
+  border-bottom: 2px solid grey;
+  padding: 10px;
+  transition: 0.1s ease-in;
+  font-weight: bold;
+}
+.active:hover {
+  color: grey;
+}
+
+.default {
+  text-decoration: none;
+  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-weight: bold;
+  position: relative;
+  display: inline-block;
+}
+
+.default:hover {
+  color: grey;
+  transform: scale(1.1);
+}
+
+.imageActive {
+  display: inline-block;
+  border-radius: 50%;
+  box-shadow: 0 0 10px 1px grey;
+}

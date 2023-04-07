@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { AccountContext } from "./account-context";
+import Toolbar from "./toolbar/toolbar";
+import Home from "./home/home";
 
 const useAuth = () => {
   const { user } = useContext(AccountContext);
@@ -9,7 +11,14 @@ const useAuth = () => {
 
 const PrivateRoutes = () => {
   const isAuth = useAuth();
-  return isAuth ? <Outlet /> : <Navigate to="/" />;
+  return isAuth ? (
+    <>
+      <Toolbar></Toolbar>
+      <Outlet />
+    </>
+  ) : (
+    <Navigate to="/" />
+  );
 };
 
 export default PrivateRoutes;

@@ -1,11 +1,6 @@
 import Classes from "./map.module.css";
 import { useMemo } from "react";
-import {
-  GoogleMap,
-  useLoadScript,
-  MarkerF,
-  InfoWindow,
-} from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
 const MapComponent = () => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyBaQvPISImw9GBbzb_bq3vzvBvCsmYywO4",

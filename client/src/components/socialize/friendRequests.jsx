@@ -1,21 +1,11 @@
-import { ChatIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Divider,
-  Grid,
-  Heading,
-  HStack,
-  VStack,
-  Wrap,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Divider, Heading, Wrap } from "@chakra-ui/react";
 import RequestCard from "./requestCard";
 import { FriendContext } from "./socializeComponent";
 import { useContext } from "react";
 const FriendRequests = () => {
   const { friendRequestList } = useContext(FriendContext);
   return (
-    <Box w="100%" margin="auto" maxHeight="96vh" h="94vh">
+    <Box w="100%" margin="auto" maxHeight="82vh" h="82vh">
       <Heading size="md" pl="5px">
         Friend requests
       </Heading>

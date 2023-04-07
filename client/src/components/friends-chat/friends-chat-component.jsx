@@ -19,12 +19,12 @@ const FriendsChatComponent = () => {
       templateColumns="repeat(10, 1fr)"
       as={Tabs}
       onChange={(index) => setFriendIndex(index)}
-      h="97vh"
+      h="85vh"
     >
       <GridItem borderRight="1px solid grey" colSpan="2" minWidth="210px">
         <FriendsChat />
       </GridItem>
-      <GridItem maxH="95vh" colSpan="8">
+      <GridItem maxH="82vh" colSpan="8">
         <VStack pt="20px" borderRadius="10px">
           <Heading size="md">Chat </Heading>
           <Divider />

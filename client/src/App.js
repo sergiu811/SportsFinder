@@ -1,15 +1,12 @@
 import UserContext from "./components/account-context";
+import Toolbar from "./components/toolbar/toolbar";
 import Views from "./components/views/views";
-import socket from "./socket";
-import { ChakraProvider } from "@chakra-ui/react";
 
 function App() {
   return (
-    <ChakraProvider>
-      <UserContext>
-        <Views></Views>
-      </UserContext>
-    </ChakraProvider>
+    <UserContext>
+      <Views></Views>
+    </UserContext>
   );
 }
 

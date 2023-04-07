@@ -1,10 +1,8 @@
 import { Button } from "@chakra-ui/button";
 import {
-  Circle,
   Divider,
   GridItem,
   Heading,
-  HStack,
   Text,
   VStack,
   Grid,
@@ -23,7 +21,7 @@ const FriendsChat = () => {
       <VStack
         as={TabList}
         width="90%"
-        h="90vh"
+        h="78vh"
         overflowY="scroll"
         border="none"
       >

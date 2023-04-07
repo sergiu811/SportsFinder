@@ -15,11 +15,10 @@ import {
 import { createContext, useContext, useEffect, useState } from "react";
 import socketConn from "../../socket";
 import { AccountContext } from "../account-context";
-import { ChatIcon, AtSignIcon } from "@chakra-ui/icons";
 import FriendsChatComponent from "../friends-chat/friends-chat-component";
 import AddFriendModal from "../add-friend-modal/add-friend-modal";
 import FriendRequests from "./friendRequests";
-import { FaUserFriends, FaUserPlus, FaBell } from "react-icons/fa";
+import { FaUserFriends, FaUserPlus } from "react-icons/fa";
 import { HiChatBubbleLeftRight } from "react-icons/hi2";
 
 export const FriendContext = createContext();
@@ -63,7 +62,7 @@ const SocializeCompoenent = () => {
             mt="1vh"
             boxShadow="1px 3px 7px 1px"
           >
-            <VStack as={TabList} h="96vh" border="none" pt="45px">
+            <VStack as={TabList} h="80vh" border="none" pt="45px">
               <Tab>
                 <Icon width="30px" height="30px" as={HiChatBubbleLeftRight} />
               </Tab>

@@ -19,7 +19,7 @@ const Chat = ({ userid }) => {
 
   return friendList.length > 0 ? (
     <>
-      <VStack maxHeight="inherit" justify="end" h="91vh">
+      <VStack maxHeight="inherit" justify="end" h="75vh">
         <TabPanels overflowY="scroll">
           {friendList.map((friend) => (
             <VStack

@@ -7,17 +7,14 @@ import {
   Heading,
   Box,
   Avatar,
-  Text,
 } from "@chakra-ui/react";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { FriendContext, SocketContext } from "./socializeComponent";
 
 const RequestCard = ({ friendRequest }) => {
   const { socket } = useContext(SocketContext);
-  const { setFriendList, setFriendRequestList, friendRequestList } =
-    useContext(FriendContext);
-  const [requestState, setRequestState] = useState("");
+  const { setFriendList, setFriendRequestList } = useContext(FriendContext);
 
   const handleAccept = () => {
     socket.emit(
@@ -26,7 +23,6 @@ const RequestCard = ({ friendRequest }) => {
       ({ done, newFriend }) => {
         if (done) {
           setFriendList((c) => [newFriend, ...c]);
-          setRequestState("Friend Request Accepted");
           setFriendRequestList((c) =>
             c.filter((el) => el.username !== newFriend.username)
           );
@@ -45,7 +41,6 @@ const RequestCard = ({ friendRequest }) => {
           setFriendRequestList((c) =>
             c.filter((el) => el.username !== rejectedFriend)
           );
-          setRequestState("Friend Request Declined");
           console.log(rejectedFriend);
           return;
         }
