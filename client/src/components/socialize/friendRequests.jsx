@@ -2,6 +2,7 @@ import { Box, Divider, Heading, Wrap } from "@chakra-ui/react";
 import RequestCard from "./requestCard";
 import { FriendContext } from "./socializeComponent";
 import { useContext } from "react";
+import { Empty } from "antd";
 const FriendRequests = () => {
   const { friendRequestList } = useContext(FriendContext);
   return (
@@ -22,11 +23,15 @@ const FriendRequests = () => {
           })}
         </Wrap>
       ) : (
-        <Box borderRadius="10px" m="10px" boxShadow="1px 3px 7px 1px" p="20px">
-          <Heading size="sm" align="center">
-            No requests
-          </Heading>
-        </Box>
+        // <Box borderRadius="10px" m="10px" boxShadow="1px 3px 7px 1px" p="20px">
+        //   <Heading size="sm" align="center">
+        //     No requests
+        //   </Heading>
+        // </Box>
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description={<span>No friend requestss</span>}
+        ></Empty>
       )}
     </Box>
   );

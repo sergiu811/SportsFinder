@@ -9,12 +9,14 @@ import {
   Tabs,
   Tab,
   VStack,
-  HStack,
   Icon,
+  Divider,
 } from "@chakra-ui/react";
 
 import { FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
 import { HiChatBubbleLeftRight } from "react-icons/hi2";
+import MapComponent from "../map/map";
+import LobbyComponent from "./lobby-component";
 
 const CourtPage = () => {
   const { id } = useParams();
@@ -34,21 +36,15 @@ const CourtPage = () => {
   if (!court) {
     return <div>Loading...</div>;
   }
-
   return (
     <div>
-      <h1>{court.court_name}</h1>
+      {/* <h1>{court.court_name}</h1>
       <p>
         Location: {court.court_longitude}, {court.court_latitude}
-      </p>
+      </p> */}
 
       <Grid as={Tabs} templateColumns={"0.6fr 9fr"} w="100%">
-        <GridItem
-          borderRadius="10px"
-          m="10px"
-          mt="1vh"
-          boxShadow="1px 3px 7px 1px"
-        >
+        <GridItem borderRadius="10px" m="10px" mt="1vh" shadow={"dark-lg"}>
           <VStack as={TabList} h="80vh" border="none" pt="45px">
             <Tab>
               <Icon width="30px" height="30px" as={HiChatBubbleLeftRight} />
@@ -61,18 +57,15 @@ const CourtPage = () => {
             </Tab>
           </VStack>
         </GridItem>
-        <GridItem
-          borderRadius="10px"
-          m="10px"
-          mt="1vh"
-          boxShadow="1px 3px 7px 1px"
-        >
+        <GridItem borderRadius="10px" m="10px" mt="1vh" shadow={"dark-lg"}>
           <TabPanels>
             <TabPanel padding="0"></TabPanel>
             <TabPanel>
-              <HStack></HStack>
+              <LobbyComponent />
             </TabPanel>
-            <TabPanel></TabPanel>
+            <TabPanel>
+              <MapComponent court={court}></MapComponent>
+            </TabPanel>
           </TabPanels>
         </GridItem>
       </Grid>

@@ -27,7 +27,7 @@ const Toolbar = () => {
     <Grid
       height="10vh"
       templateColumns="1fr 1fr 1fr 1fr 1fr "
-      boxShadow="1px 3px 7px 1px"
+      boxShadow="1px 3px 20px 1px"
       borderRadius="10px"
       m="10px"
       p="3px"

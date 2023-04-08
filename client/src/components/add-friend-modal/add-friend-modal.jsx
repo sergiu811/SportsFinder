@@ -6,11 +6,12 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@chakra-ui/modal";
-import { Button, Divider, Heading, ModalOverlay } from "@chakra-ui/react";
+import { Button, Heading, ModalOverlay } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useCallback, useContext, useState } from "react";
 import TextField from "../home/text-field";
-import { FriendContext, SocketContext } from "../socialize/socializeComponent";
+import { SocketContext } from "../socialize/socializeComponent";
+
 const Yup = require("yup");
 
 const validationSchema = Yup.object({

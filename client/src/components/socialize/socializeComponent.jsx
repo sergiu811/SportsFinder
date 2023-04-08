@@ -20,7 +20,7 @@ import AddFriendModal from "../add-friend-modal/add-friend-modal";
 import FriendRequests from "./friendRequests";
 import { FaUserFriends, FaUserPlus } from "react-icons/fa";
 import { HiChatBubbleLeftRight } from "react-icons/hi2";
-
+import { Badge } from "antd";
 export const FriendContext = createContext();
 export const MessagesContext = createContext();
 export const SocketContext = createContext();
@@ -56,18 +56,17 @@ const SocializeCompoenent = () => {
     >
       <SocketContext.Provider value={{ socket }}>
         <Grid as={Tabs} templateColumns={"0.6fr 9fr"} w="100%">
-          <GridItem
-            borderRadius="10px"
-            m="10px"
-            mt="1vh"
-            boxShadow="1px 3px 7px 1px"
-          >
+          <GridItem borderRadius="10px" m="10px" mt="1vh" shadow={"dark-lg"}>
             <VStack as={TabList} h="80vh" border="none" pt="45px">
               <Tab>
-                <Icon width="30px" height="30px" as={HiChatBubbleLeftRight} />
+                <Badge count={friendList.length}>
+                  <Icon width="30px" height="30px" as={HiChatBubbleLeftRight} />
+                </Badge>
               </Tab>
               <Tab>
-                <Icon width="30px" height="30px" as={FaUserFriends} />
+                <Badge count={friendRequestList.length}>
+                  <Icon width="30px" height="30px" as={FaUserFriends} />
+                </Badge>
               </Tab>
               <HStack onClick={onOpen}>
                 <Icon width="30px" height="30px" as={FaUserPlus} />
@@ -75,12 +74,7 @@ const SocializeCompoenent = () => {
             </VStack>
             <AddFriendModal isOpen={isOpen} onClose={onClose} />
           </GridItem>
-          <GridItem
-            borderRadius="10px"
-            m="10px"
-            mt="1vh"
-            boxShadow="1px 3px 7px 1px"
-          >
+          <GridItem borderRadius="10px" m="10px" mt="1vh" shadow={"dark-lg"}>
             <TabPanels>
               <TabPanel padding="0">
                 <MessagesContext.Provider value={{ messages, setMessages }}>

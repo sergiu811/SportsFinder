@@ -23,7 +23,13 @@ const ProfileCard = () => {
     status: "Active",
   };
   return (
-    <Card maxW="sm" boxShadow="1px 3px 7px 1px" height="460px" m="10px">
+    <Card
+      maxW="sm"
+      shadow={"dark-lg"}
+      borderRadius={"10px"}
+      height="460px"
+      m="10px"
+    >
       <CardBody>
         <Center>
           {" "}
