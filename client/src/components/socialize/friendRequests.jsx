@@ -1,10 +1,10 @@
 import { Box, Divider, Heading, Wrap } from "@chakra-ui/react";
 import RequestCard from "./requestCard";
-import { FriendContext } from "./socializeComponent";
-import { useContext } from "react";
 import { Empty } from "antd";
+import { useGlobalContext } from "../../context";
+
 const FriendRequests = () => {
-  const { friendRequestList } = useContext(FriendContext);
+  const { friendRequestList } = useGlobalContext();
   return (
     <Box w="100%" margin="auto" maxHeight="82vh" h="82vh">
       <Heading size="md" pl="5px">

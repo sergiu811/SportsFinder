@@ -1,16 +1,11 @@
-import { Text, VStack, Box } from "@chakra-ui/layout";
+import { Text, VStack, Box, Heading } from "@chakra-ui/layout";
 import { TabPanel, TabPanels } from "@chakra-ui/tabs";
-import { useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import ChatBox from "./chat-box";
-import {
-  FriendContext,
-  MessagesContext,
-} from "../socialize/socializeComponent";
-import { Divider, Heading } from "@chakra-ui/layout";
+import { useGlobalContext } from "../../context";
 
 const Chat = ({ userid }) => {
-  const { friendList } = useContext(FriendContext);
-  const { messages } = useContext(MessagesContext);
+  const { friendList, messages } = useGlobalContext();
   const bottomDiv = useRef(null);
 
   useEffect(() => {

@@ -25,6 +25,17 @@ app.use(cors(corsConfig));
 app.use(express.json());
 app.use("/auth", authRouter);
 
+app.get("/time_intervals", async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query("SELECT * FROM time_interval");
+    res.json(result.rows);
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
 app.get("/basketball_courts", async (req, res) => {
   try {
     const client = await pool.connect();
@@ -96,6 +107,20 @@ socket.on("connection", (socket) => {
 
   socket.on("requestAccepted", (friendRequest, cb) => {
     acceptFriendRequest(friendRequest, socket, cb);
+  });
+
+  socket.on("join-lobby", (selectedDate, selectedTime, id) => {
+    console.log(
+      socket.user.username,
+      "joined lobby",
+      selectedDate,
+      selectedTime,
+      id
+    );
+  });
+
+  socket.on("leave-lobby", () => {
+    console.log(socket.user.username, "left lobby");
   });
 
   socket.on("disconnecting", () => onDisconnect(socket));

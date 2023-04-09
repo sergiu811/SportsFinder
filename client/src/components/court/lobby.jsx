@@ -8,10 +8,23 @@ import {
 } from "@chakra-ui/react";
 import { Divider, Progress } from "antd";
 import LobbyPlayer from "./lobby-player";
-
+import { useParams } from "react-router-dom";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { useGlobalContext } from "../../context";
 
 const Lobby = () => {
+  const { socket, selectedDate, selectedTime } = useGlobalContext();
+  const { id } = useParams();
+
+  const handleJoin = () => {
+    console.log(id);
+    socket.emit("join-lobby", selectedDate, selectedTime, id);
+  };
+
+  const handleLeave = () => {
+    socket.emit("leave-lobby", selectedDate, selectedTime);
+  };
+
   return (
     <Box>
       <VStack alignItems={"flex-start"} width="95%" margin="auto">
@@ -29,12 +42,14 @@ const Lobby = () => {
             <Button
               leftIcon={<FaSignInAlt></FaSignInAlt>}
               _hover={{ backgroundColor: "green.400" }}
+              onClick={handleJoin}
             >
               Join
             </Button>
             <Button
               leftIcon={<FaSignOutAlt></FaSignOutAlt>}
               _hover={{ backgroundColor: "red.400" }}
+              onClick={handleLeave}
             >
               Leave
             </Button>

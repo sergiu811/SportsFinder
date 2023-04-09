@@ -9,12 +9,10 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
-import { useContext } from "react";
-import { FriendContext, SocketContext } from "./socializeComponent";
+import { useGlobalContext } from "../../context";
 
 const RequestCard = ({ friendRequest }) => {
-  const { socket } = useContext(SocketContext);
-  const { setFriendList, setFriendRequestList } = useContext(FriendContext);
+  const { setFriendList, setFriendRequestList, socket } = useGlobalContext();
 
   const handleAccept = () => {
     socket.emit(

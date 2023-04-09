@@ -9,11 +9,10 @@ import {
 } from "@chakra-ui/layout";
 import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
 import { Tab, TabList } from "@chakra-ui/tabs";
-import { useContext } from "react";
-import { FriendContext } from "../socialize/socializeComponent";
+import { useGlobalContext } from "../../context";
 
 const FriendsChat = () => {
-  const { friendList } = useContext(FriendContext);
+  const { friendList } = useGlobalContext();
   return (
     <VStack pt="20px">
       <Heading size="md">Friends</Heading>

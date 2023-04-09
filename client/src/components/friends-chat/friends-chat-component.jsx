@@ -1,6 +1,5 @@
-import { FriendContext } from "../socialize/socializeComponent";
 import Chat from "./chat";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import {
   Grid,
   GridItem,
@@ -10,10 +9,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import FriendsChat from "./friends-chat";
+import { useGlobalContext } from "../../context";
 
 const FriendsChatComponent = () => {
   const [friendIndex, setFriendIndex] = useState(0);
-  const { friendList } = useContext(FriendContext);
+  const { friendList } = useGlobalContext();
   return (
     <Grid
       templateColumns="repeat(10, 1fr)"

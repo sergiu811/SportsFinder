@@ -47,9 +47,6 @@ const CourtPage = () => {
         <GridItem borderRadius="10px" m="10px" mt="1vh" shadow={"dark-lg"}>
           <VStack as={TabList} h="80vh" border="none" pt="45px">
             <Tab>
-              <Icon width="30px" height="30px" as={HiChatBubbleLeftRight} />
-            </Tab>
-            <Tab>
               <Icon width="30px" height="30px" as={FaUserFriends} />
             </Tab>
             <Tab>
@@ -59,7 +56,6 @@ const CourtPage = () => {
         </GridItem>
         <GridItem borderRadius="10px" m="10px" mt="1vh" shadow={"dark-lg"}>
           <TabPanels>
-            <TabPanel padding="0"></TabPanel>
             <TabPanel>
               <LobbyComponent />
             </TabPanel>

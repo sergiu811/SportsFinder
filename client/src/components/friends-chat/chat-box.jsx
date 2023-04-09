@@ -2,16 +2,11 @@ import { Button } from "@chakra-ui/button";
 import { Input } from "@chakra-ui/input";
 import { HStack } from "@chakra-ui/layout";
 import { Field, Form, Formik } from "formik";
-import { useContext } from "react";
 import * as Yup from "yup";
-import {
-  MessagesContext,
-  SocketContext,
-} from "../socialize/socializeComponent";
+import { useGlobalContext } from "../../context";
 
 const ChatBox = ({ userid }) => {
-  const { setMessages } = useContext(MessagesContext);
-  const { socket } = useContext(SocketContext);
+  const { setMessages, socket } = useGlobalContext();
   return (
     <Formik
       initialValues={{ message: "" }}

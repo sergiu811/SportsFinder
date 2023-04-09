@@ -4,16 +4,14 @@ import ProfileCard from "../profile/profile-card";
 
 const Home = () => {
   return (
-    <>
-      <Grid templateColumns={"4fr 6fr"}>
-        <GridItem>
-          <ProfileCard></ProfileCard>
-        </GridItem>
-        <GridItem>
-          <CourtList></CourtList>
-        </GridItem>
-      </Grid>
-    </>
+    <Grid templateColumns={"4fr 6fr"}>
+      <GridItem>
+        <ProfileCard></ProfileCard>
+      </GridItem>
+      <GridItem>
+        <CourtList></CourtList>
+      </GridItem>
+    </Grid>
   );
 };
 

@@ -8,9 +8,9 @@ import {
 } from "@chakra-ui/modal";
 import { Button, Heading, ModalOverlay } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useState } from "react";
+import { useGlobalContext } from "../../context";
 import TextField from "../home/text-field";
-import { SocketContext } from "../socialize/socializeComponent";
 
 const Yup = require("yup");
 
@@ -28,7 +28,7 @@ const AddFriendModal = ({ isOpen, onClose }) => {
     onClose();
     setButtonMessage("Send");
   }, [onClose]);
-  const { socket } = useContext(SocketContext);
+  const { socket } = useGlobalContext();
   const [buttonMessage, setButtonMessage] = useState("Send");
 
   return (

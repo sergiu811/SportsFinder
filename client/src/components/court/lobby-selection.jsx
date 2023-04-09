@@ -1,53 +1,65 @@
 import { DatePicker, Select } from "antd";
 import { VStack, Heading } from "@chakra-ui/react";
-import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 import moment from "moment";
-const onChange = (date, dateString) => {
-  console.log(date, dateString);
-};
-
-const options = [
-  {
-    value: 0,
-    label: "8:00 to 10:00",
-  },
-  {
-    value: 1,
-    label: "10:00 to 12:00",
-  },
-  {
-    value: 2,
-    label: "12:00 to 14:00",
-  },
-  {
-    value: 3,
-    label: "14:00 to 16:00",
-  },
-  {
-    value: 4,
-    label: "16:00 to 18:00",
-  },
-  {
-    value: 5,
-    label: "18:00 to 20:00",
-  },
-  {
-    value: 6,
-    label: "20:00 to 22:00",
-  },
-];
+import { useGlobalContext } from "../../context";
 
 const LobbySelection = () => {
+  const { selectedTime, setSelectedTime, setSelectedDate, selectedDate } =
+    useGlobalContext();
+  const [time_intervals, setTimeIntervals] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const setDate = (date, dateString) => {
+    setSelectedDate(dateString);
+  };
+
+  const setTime = (value) => {
+    setSelectedTime(value);
+  };
+  useEffect(() => {
+    async function fetchTimeInterval() {
+      setIsLoading(true);
+
+      try {
+        const response = await fetch("http://localhost:5001/time_intervals");
+        const data = await response.json();
+        const options = data.map((option) => {
+          return {
+            value: option.time_id,
+            label: option.time_interval,
+          };
+        });
+        setTimeIntervals(options);
+      } catch (error) {
+        setError(error.message);
+      }
+
+      setIsLoading(false);
+    }
+    fetchTimeInterval();
+    setSelectedTime(time_intervals[0].value);
+  }, []);
+  if (isLoading) {
+    return <h1>Loading</h1>;
+  }
   return (
     <VStack width="100%">
       <Heading size={"sm"}>Select a date</Heading>
-      <DatePicker size="large" style={{ width: "90%" }} onChange={onChange} />
+      <DatePicker
+        defaultValue={selectedDate}
+        size="large"
+        style={{ width: "90%" }}
+        onChange={setDate}
+      />
 
       <Select
         size="large"
+        onChange={setTime}
         style={{ width: "90%" }}
-        defaultValue={"Start Time to End Time"}
-        options={options}
+        defaultValue={time_intervals[0]}
+        options={time_intervals}
       ></Select>
     </VStack>
   );
