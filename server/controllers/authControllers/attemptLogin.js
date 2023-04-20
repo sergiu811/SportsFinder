@@ -17,7 +17,7 @@ module.exports.attemptLogin = async (req, res) => {
       jwtSign(
         {
           username: req.body.username,
-          id: potentialLogin.rows[0].id,
+          id: potentialLogin.rows[0].playerid,
           userid: potentialLogin.rows[0].userid,
         },
         process.env.JWT_SECRET,

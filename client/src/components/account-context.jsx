@@ -9,7 +9,9 @@ const UserContext = ({ children }) => {
     loggedIn: null,
     token: localStorage.getItem("token"),
   });
+
   const navigate = useNavigate();
+
   useEffect(() => {
     fetch("http://localhost:5001/auth/login", {
       credentials: "include",

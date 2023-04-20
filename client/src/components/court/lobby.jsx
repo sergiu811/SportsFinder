@@ -11,19 +11,72 @@ import LobbyPlayer from "./lobby-player";
 import { useParams } from "react-router-dom";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { useGlobalContext } from "../../context";
+import { useEffect, useState } from "react";
 
 const Lobby = () => {
-  const { socket, selectedDate, selectedTime } = useGlobalContext();
+  const { socket, selectedDate, selectedTime, players, setPlayers } =
+    useGlobalContext();
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [capacity, setCapacity] = useState(0);
 
   const handleJoin = () => {
-    console.log(id);
-    socket.emit("join-lobby", selectedDate, selectedTime, id);
+    socket.emit(
+      "joinLobby",
+      selectedDate,
+      selectedTime,
+      id,
+      ({ done, msg, player }) => {
+        if (done) {
+          console.log(player);
+          setPlayers([player, ...players]);
+        }
+        console.log(msg);
+      }
+    );
   };
 
   const handleLeave = () => {
-    socket.emit("leave-lobby", selectedDate, selectedTime);
+    socket.emit(
+      "leaveLobby",
+      selectedDate,
+      selectedTime,
+      id,
+      ({ done, msg, removedPlayer }) => {
+        if (done) {
+          console.log(removedPlayer);
+          setPlayers((c) => c.filter((el) => el.username !== removedPlayer));
+        }
+        console.log(msg);
+      }
+    );
   };
+
+  async function fetchPlayers() {
+    try {
+      const response = await fetch(
+        `http://localhost:5001/lobby_players?court_id=${id}&&selectedTime=${selectedTime}&&selectedDate=${selectedDate}`
+      );
+      const data = await response.json();
+      setCapacity(data.length);
+      setPlayers(data);
+    } catch (error) {
+      setError(error.message);
+    }
+  }
+
+  useEffect(() => {
+    setIsLoading(true);
+    if (
+      id !== undefined &&
+      selectedTime !== undefined &&
+      selectedDate !== undefined
+    ) {
+      fetchPlayers();
+    }
+    setIsLoading(false);
+  }, [id, selectedTime, selectedDate]);
 
   return (
     <Box>
@@ -34,7 +87,7 @@ const Lobby = () => {
             <Progress
               strokeColor={"green"}
               style={{ width: "200px" }}
-              percent={(4 * 100) / 10}
+              percent={(capacity * 100) / 10}
             ></Progress>
           </HStack>
 
@@ -65,16 +118,15 @@ const Lobby = () => {
         margin="auto"
         spacing="20px"
       >
-        <LobbyPlayer></LobbyPlayer>
-        <LobbyPlayer></LobbyPlayer>
-        <LobbyPlayer></LobbyPlayer>
-        <LobbyPlayer></LobbyPlayer>
-        <LobbyPlayer></LobbyPlayer>
-        <LobbyPlayer></LobbyPlayer>
-        <LobbyPlayer></LobbyPlayer>
-        <LobbyPlayer></LobbyPlayer>
-        <LobbyPlayer></LobbyPlayer>
-        <LobbyPlayer></LobbyPlayer>
+        {players.length > 0 ? (
+          players.map((player) => {
+            return (
+              <LobbyPlayer key={player.playerid} player={player}></LobbyPlayer>
+            );
+          })
+        ) : (
+          <h1>loading</h1>
+        )}
       </VStack>
     </Box>
   );

@@ -7,7 +7,7 @@ require("dotenv").config();
 
 module.exports.attemptRegister = async (req, res) => {
   const existingUser = await pool.query(
-    "SELECT username from Player WHERE username=$1",
+    "SELECT username from player WHERE username=$1",
     [req.body.username]
   );
 
@@ -22,7 +22,7 @@ module.exports.attemptRegister = async (req, res) => {
     jwtSign(
       {
         username: req.body.username,
-        id: newUserQuery.rows[0].id,
+        id: newUserQuery.rows[0].playerid,
         userid: newUserQuery.rows[0].userid,
       },
       process.env.JWT_SECRET,

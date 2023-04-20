@@ -1,8 +1,13 @@
 import { DatePicker, Select } from "antd";
 import { VStack, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import moment from "moment";
 import { useGlobalContext } from "../../context";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
+
+const dateFormat = "YYYY-MM-DD";
 
 const LobbySelection = () => {
   const { selectedTime, setSelectedTime, setSelectedDate, selectedDate } =
@@ -39,8 +44,14 @@ const LobbySelection = () => {
       setIsLoading(false);
     }
     fetchTimeInterval();
-    setSelectedTime(time_intervals[0].value);
   }, []);
+
+  useEffect(() => {
+    if (time_intervals.length > 0 && time_intervals !== undefined) {
+      setSelectedTime(time_intervals[0].value);
+    }
+  }, [time_intervals]);
+
   if (isLoading) {
     return <h1>Loading</h1>;
   }
@@ -48,10 +59,11 @@ const LobbySelection = () => {
     <VStack width="100%">
       <Heading size={"sm"}>Select a date</Heading>
       <DatePicker
-        defaultValue={selectedDate}
+        defaultValue={dayjs(selectedDate, dateFormat)}
         size="large"
         style={{ width: "90%" }}
         onChange={setDate}
+        clearIcon={false}
       />
 
       <Select

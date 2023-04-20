@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
-import { A } from "../../context";
+import { A, useGlobalContext } from "../../context";
 import { AccountContext } from "../account-context";
+import { message } from "antd";
 
 const useSocketSetup = (
   setFriendList,
@@ -8,9 +9,12 @@ const useSocketSetup = (
   friendList,
   friendRequestList,
   setMessages,
+  players,
+  setPlayers,
   socket
 ) => {
   const { setUser } = useContext(AccountContext);
+  //const { players, setPlayers } = useGlobalContext();
 
   useEffect(() => {
     socket.connect();
@@ -35,6 +39,14 @@ const useSocketSetup = (
       setMessages(messages);
     });
 
+    socket.on("joined", (joinedPlayer) => {
+      setPlayers([joinedPlayer, ...players]);
+      console.log(players);
+    });
+    socket.on("left", (removedPlayer) => {
+      console.log(removedPlayer);
+      setPlayers((c) => c.filter((el) => el.username !== removedPlayer));
+    });
     socket.on("dm", (message) => {
       setMessages((prevMsgs) => [message, ...prevMsgs]);
     });
@@ -60,6 +72,9 @@ const useSocketSetup = (
       socket.off("friends");
       socket.off("messages");
       socket.off("dm");
+      socket.off("requestReceived");
+      socket.off("friendRequests");
+      socket.off("joinedLobby");
     };
   }, [setUser, setFriendList, setMessages, socket]);
 };

@@ -39,7 +39,6 @@ const RequestCard = ({ friendRequest }) => {
           setFriendRequestList((c) =>
             c.filter((el) => el.username !== rejectedFriend)
           );
-          console.log(rejectedFriend);
           return;
         }
       }

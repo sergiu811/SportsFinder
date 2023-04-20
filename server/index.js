@@ -11,6 +11,8 @@ const initializeUser = require("./controllers/socketControllers/initializeUser")
 const onDisconnect = require("./controllers/socketControllers/onDisconnect");
 const acceptFriendRequest = require("./controllers/socketControllers/acceptFriendRequest");
 const declineFriendRequest = require("./controllers/socketControllers/declineFriendRequest");
+const joinLobby = require("./controllers/socketControllers/joinLobby");
+const leaveLobby = require("./controllers/socketControllers/leaveLobby");
 const dm = require("./controllers/socketControllers/dm");
 const server = require("http").Server(app);
 const pool = require("./db");
@@ -36,10 +38,32 @@ app.get("/time_intervals", async (req, res) => {
     res.sendStatus(500);
   }
 });
+
 app.get("/basketball_courts", async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query("SELECT * FROM court");
+    res.json(result.rows);
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
+app.get("/lobby_players", async (req, res) => {
+  const court_id = req.query.court_id;
+  const time_id = req.query.selectedTime;
+  const date = req.query.selectedDate;
+  const query = `
+    SELECT p.*
+    FROM player AS p
+    INNER JOIN lobby AS l ON p.playerid=l.player_id
+    WHERE l.court_id=$1 AND l.time_id=$2 AND l.date=$3
+  `;
+  try {
+    const client = await pool.connect();
+    const result = await client.query(query, [court_id, time_id, date]);
     res.json(result.rows);
     client.release();
   } catch (err) {
@@ -103,24 +127,22 @@ socket.on("connection", (socket) => {
     declineFriendRequest(friendName, socket, cb);
   });
 
-  socket.on("dm", (message) => dm(socket, message));
+  socket.on("dm", (message) => {
+    console.log(socket.id);
+    dm(socket, message);
+  });
 
   socket.on("requestAccepted", (friendRequest, cb) => {
     acceptFriendRequest(friendRequest, socket, cb);
   });
 
-  socket.on("join-lobby", (selectedDate, selectedTime, id) => {
-    console.log(
-      socket.user.username,
-      "joined lobby",
-      selectedDate,
-      selectedTime,
-      id
-    );
+  socket.on("joinLobby", (selectedDate, selectedTime, id, cb) => {
+    //socket.to("a187d95d-1223-4a18-87ae-abd644a03035").emit("joined");
+    joinLobby(socket, selectedDate, selectedTime, id, cb);
   });
 
-  socket.on("leave-lobby", () => {
-    console.log(socket.user.username, "left lobby");
+  socket.on("leaveLobby", (selectedDate, selectedTime, court_id, cb) => {
+    leaveLobby(socket, selectedDate, selectedTime, court_id, cb);
   });
 
   socket.on("disconnecting", () => onDisconnect(socket));

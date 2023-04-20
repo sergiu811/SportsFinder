@@ -11,7 +11,6 @@ module.exports.authorizeUser = (socket, next) => {
       next();
     })
     .catch((err) => {
-      console.log("bad request");
-      next(new (Error("not authorized"))());
+      next(new Error("not authorized"));
     });
 };

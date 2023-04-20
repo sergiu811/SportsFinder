@@ -9,13 +9,13 @@ import {
 import ReactStars from "react-rating-stars-component";
 import { FaStar, FaRegStar, FaStarHalf, FaUserPlus } from "react-icons/fa";
 
-const LobbyPlayer = () => {
+const LobbyPlayer = ({ player }) => {
   return (
     <Box width="100%">
       <HStack p="10px" justifyContent={"space-between"}>
         <HStack>
-          <Avatar name="Sergiu"></Avatar>
-          <Heading size="md">Sergiu </Heading>
+          <Avatar name={player.username}></Avatar>
+          <Heading size="md">{player.username} </Heading>
           <ReactStars
             fullIcon={<FaStar></FaStar>}
             halfIcon={<FaStarHalf></FaStarHalf>}
