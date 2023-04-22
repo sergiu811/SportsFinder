@@ -30,12 +30,26 @@ const leaveLobby = async (socket, selectedDate, selectedTime, court_id, cb) => {
       lobbyPlayers.rows.forEach((player) => {
         if (player.userid != socket.user.userid) lobbyRoom.push(player.userid);
       });
-      socket.to(lobbyRoom).emit("left", socket.user.username);
+      socket
+        .to(lobbyRoom)
+        .emit(
+          "left",
+          socket.user.username,
+          court_id,
+          selectedTime,
+          selectedDate
+        );
     } catch (error) {
       cb({ msg: "Something went wrong!" });
     }
 
-    cb({ done: true, removedPlayer: player.rows[0].username });
+    cb({
+      done: true,
+      removedPlayer: player.rows[0].username,
+      court_id,
+      selectedTime,
+      selectedDate,
+    });
   } else {
     cb({ msg: "You are not in the lobby!" });
   }

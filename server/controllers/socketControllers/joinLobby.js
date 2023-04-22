@@ -29,9 +29,17 @@ const joinLobby = async (socket, selectedDate, selectedTime, court_id, cb) => {
       if (player.userid != socket.user.userid) lobbyRoom.push(player.userid);
     });
 
-    socket.to(lobbyRoom).emit("joined", player.rows[0]);
+    socket
+      .to(lobbyRoom)
+      .emit("joined", player.rows[0], court_id, selectedDate, selectedTime);
 
-    cb({ done: true, player: player.rows[0] });
+    cb({
+      done: true,
+      player: player.rows[0],
+      court_id,
+      selectedDate,
+      selectedTime,
+    });
   }
 };
 

@@ -1,7 +1,5 @@
 import { useContext, useEffect } from "react";
-import { A, useGlobalContext } from "../../context";
 import { AccountContext } from "../account-context";
-import { message } from "antd";
 
 const useSocketSetup = (
   setFriendList,
@@ -14,7 +12,6 @@ const useSocketSetup = (
   socket
 ) => {
   const { setUser } = useContext(AccountContext);
-  //const { players, setPlayers } = useGlobalContext();
 
   useEffect(() => {
     socket.connect();
@@ -39,13 +36,23 @@ const useSocketSetup = (
       setMessages(messages);
     });
 
-    socket.on("joined", (joinedPlayer) => {
-      setPlayers([joinedPlayer, ...players]);
-      console.log(players);
+    socket.on("lobbies", (lobbies, playersB) => {
+      const newPlayers = getLobbyPlayersMap(lobbies, playersB);
+      setPlayers(newPlayers);
     });
-    socket.on("left", (removedPlayer) => {
-      console.log(removedPlayer);
-      setPlayers((c) => c.filter((el) => el.username !== removedPlayer));
+
+    socket.on("left", (removedPlayer, court_id, selectedTime, selectedDate) => {
+      // const key = {
+      //   courtId: court_id,
+      //   selectedDate: selectedDate,
+      //   selectedTime: selectedTime,
+      // };
+      // const lobbyPlayers = players.get(key);
+      // const map = players;
+      // map.delete(key);
+      // lobbyPlayers.filter((el) => el.username !== removedPlayer);
+      // map.set(key, lobbyPlayers);
+      // setPlayers(map);
     });
     socket.on("dm", (message) => {
       setMessages((prevMsgs) => [message, ...prevMsgs]);
@@ -76,7 +83,27 @@ const useSocketSetup = (
       socket.off("friendRequests");
       socket.off("joinedLobby");
     };
-  }, [setUser, setFriendList, setMessages, socket]);
+  }, [
+    setUser,
+    setFriendList,
+    setMessages,
+    socket,
+    setPlayers,
+    setFriendRequestList,
+  ]);
+};
+
+const getLobbyPlayersMap = (lobbies, players) => {
+  const map = lobbies.reduce((accumulator, currentElement, currentIndex) => {
+    currentElement.date = currentElement.date.toString().slice(0, 10);
+    console.log(currentElement);
+    const key = `court:${currentElement.court_id},time:${
+      currentElement.time_id
+    },date:${currentElement.date.toString().slice(0, 10)},`;
+    accumulator.set(key, players[currentIndex]);
+    return accumulator;
+  }, new Map());
+  return map;
 };
 
 export default useSocketSetup;

@@ -27,12 +27,33 @@ const Lobby = () => {
       selectedDate,
       selectedTime,
       id,
-      ({ done, msg, player }) => {
+      ({ done, msg, player, court_id, selectedDate, selectedTime }) => {
         if (done) {
-          console.log(player);
-          setPlayers([player, ...players]);
+          const key = `court:${court_id},time:${selectedTime},date:${selectedDate
+            .toString()
+            .slice(0, 10)},`;
+
+          const map = players;
+          let lobbyPlayers = [];
+
+          if (map.has(key)) {
+            lobbyPlayers = map.get(key);
+            if (!lobbyPlayers.some((obj) => obj.playerid === player.playerid)) {
+              lobbyPlayers.push(player);
+              map.delete(key);
+            }
+          } else {
+            lobbyPlayers.push(player);
+          }
+
+          setCapacity(lobbyPlayers.length);
+
+          map.set(key, lobbyPlayers);
+          setPlayers(map);
+          console.log(players);
+        } else {
+          console.log(msg);
         }
-        console.log(msg);
       }
     );
   };
@@ -43,40 +64,61 @@ const Lobby = () => {
       selectedDate,
       selectedTime,
       id,
-      ({ done, msg, removedPlayer }) => {
+      ({ done, msg, removedPlayer, court_id, selectedTime, selectedDate }) => {
         if (done) {
-          console.log(removedPlayer);
-          setPlayers((c) => c.filter((el) => el.username !== removedPlayer));
+          const key = `court:${court_id},time:${selectedTime},date:${selectedDate
+            .toString()
+            .slice(0, 10)},`;
+
+          const map = players;
+          const lobbyPlayers = players.get(key);
+          console.log(map);
+          const newLobbyPlayers = lobbyPlayers.filter(
+            (el) => el.username !== removedPlayer
+          );
+          map.delete(key);
+
+          map.set(key, newLobbyPlayers);
+          setCapacity(newLobbyPlayers.length);
+          setPlayers(map);
+        } else {
+          console.log(msg);
         }
-        console.log(msg);
       }
     );
   };
 
-  async function fetchPlayers() {
-    try {
-      const response = await fetch(
-        `http://localhost:5001/lobby_players?court_id=${id}&&selectedTime=${selectedTime}&&selectedDate=${selectedDate}`
-      );
-      const data = await response.json();
-      setCapacity(data.length);
-      setPlayers(data);
-    } catch (error) {
-      setError(error.message);
-    }
-  }
+  // async function fetchPlayers() {
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:5001/lobby_players?court_id=${id}&&selectedTime=${selectedTime}&&selectedDate=${selectedDate}`
+  //     );
+  //     const key = JSON.stringify({
+  //       courtId: new Number(id),
+  //       time_id: new Number(selectedTime),
+  //       date: selectedDate.toString().slice(0, 10),
+  //     });
+
+  //     const data = await response.json();
+  //     setCapacity(data.length);
+  //     const map = players;
+  //     map.set(key, data);
+  //     setPlayers(map);
+  //   } catch (error) {
+  //     setError(error.message);
+  //   }
+  // }
 
   useEffect(() => {
-    setIsLoading(true);
-    if (
-      id !== undefined &&
-      selectedTime !== undefined &&
-      selectedDate !== undefined
-    ) {
-      fetchPlayers();
+    const key = `court:${id},time:${selectedTime},date:${selectedDate
+      .toString()
+      .slice(0, 10)},`;
+
+    if (players.has(key)) {
+      const lobbyplayers = players.get(key);
+      setCapacity(lobbyplayers.length);
     }
-    setIsLoading(false);
-  }, [id, selectedTime, selectedDate]);
+  }, []);
 
   return (
     <Box>
@@ -118,15 +160,28 @@ const Lobby = () => {
         margin="auto"
         spacing="20px"
       >
-        {players.length > 0 ? (
-          players.map((player) => {
-            return (
-              <LobbyPlayer key={player.playerid} player={player}></LobbyPlayer>
-            );
-          })
+        {/* {players.get({
+          courtId: id,
+          selectedDate: selectedDate,
+          selectedTime: selectedTime,
+        }) ? (
+          players
+            .get({
+              courtId: id,
+              selectedDate: selectedDate,
+              selectedTime: selectedTime,
+            })
+            .map((player) => {
+              return (
+                <LobbyPlayer
+                  key={player.playerid}
+                  player={player}
+                ></LobbyPlayer>
+              );
+            })
         ) : (
           <h1>loading</h1>
-        )}
+        )} */}
       </VStack>
     </Box>
   );
