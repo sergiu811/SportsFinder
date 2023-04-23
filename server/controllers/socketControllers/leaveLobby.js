@@ -30,15 +30,20 @@ const leaveLobby = async (socket, selectedDate, selectedTime, court_id, cb) => {
       lobbyPlayers.rows.forEach((player) => {
         if (player.userid != socket.user.userid) lobbyRoom.push(player.userid);
       });
-      socket
-        .to(lobbyRoom)
-        .emit(
-          "left",
-          socket.user.username,
-          court_id,
-          selectedTime,
-          selectedDate
-        );
+
+      const distinctLobbies = await pool.query(
+        "SELECT DISTINCT court_id, time_id, date FROM lobby;"
+      );
+      const lobbies = getLobbies(distinctLobbies.rows);
+
+      const players = await Promise.all(
+        lobbies.map(async (element) => {
+          const lobbyPlayers = await getPlayerFromLobby(element);
+          return lobbyPlayers;
+        })
+      );
+
+      socket.to(lobbyRoom).emit("left", lobbies, players);
     } catch (error) {
       cb({ msg: "Something went wrong!" });
     }
@@ -46,9 +51,6 @@ const leaveLobby = async (socket, selectedDate, selectedTime, court_id, cb) => {
     cb({
       done: true,
       removedPlayer: player.rows[0].username,
-      court_id,
-      selectedTime,
-      selectedDate,
     });
   } else {
     cb({ msg: "You are not in the lobby!" });
@@ -56,3 +58,23 @@ const leaveLobby = async (socket, selectedDate, selectedTime, court_id, cb) => {
 };
 
 module.exports = leaveLobby;
+
+const getLobbies = (distincLobbies) => {
+  let lobbies = [];
+  distincLobbies.forEach((element) => {
+    lobbies.push(element);
+  });
+  return lobbies;
+};
+
+const getPlayerFromLobby = async (lobby) => {
+  try {
+    const playersFromLobby = await pool.query(
+      " SELECT p.*FROM player AS p INNER JOIN lobby AS l ON p.playerid=l.player_id WHERE l.court_id=$1 AND l.time_id=$2 AND l.date=$3",
+      [lobby.court_id, lobby.time_id, lobby.date]
+    );
+    return playersFromLobby.rows;
+  } catch (error) {
+    console.log("Error while trying to get the players from each lobby");
+  }
+};

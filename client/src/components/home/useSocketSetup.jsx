@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react";
 import { AccountContext } from "../account-context";
+import { useGlobalContext } from "../../context";
 
 const useSocketSetup = (
   setFriendList,
@@ -41,18 +42,27 @@ const useSocketSetup = (
       setPlayers(newPlayers);
     });
 
-    socket.on("left", (removedPlayer, court_id, selectedTime, selectedDate) => {
-      // const key = {
-      //   courtId: court_id,
-      //   selectedDate: selectedDate,
-      //   selectedTime: selectedTime,
-      // };
-      // const lobbyPlayers = players.get(key);
-      // const map = players;
-      // map.delete(key);
-      // lobbyPlayers.filter((el) => el.username !== removedPlayer);
-      // map.set(key, lobbyPlayers);
-      // setPlayers(map);
+    socket.on("joined", (lobbies, playersB) => {
+      // const key = `court:${court_id},time:${selectedTime},date:${selectedDate
+      //   .toString()
+      //   .slice(0, 10)},`;
+      // console.log(players.size);
+      // if (players.size > 0) {
+      //   const map = players;
+      //   const lobbyPlayers = map.get(key);
+      //   lobbyPlayers.push(newPlayer);
+      //   map.delete(key);
+      //   map.set(key, lobbyPlayers);
+      //   setPlayers(map);
+      // }
+
+      const newPlayers = getLobbyPlayersMap(lobbies, playersB);
+      setPlayers(newPlayers);
+    });
+
+    socket.on("left", (lobbies, playersB) => {
+      const newPlayers = getLobbyPlayersMap(lobbies, playersB);
+      setPlayers(newPlayers);
     });
     socket.on("dm", (message) => {
       setMessages((prevMsgs) => [message, ...prevMsgs]);
@@ -90,10 +100,12 @@ const useSocketSetup = (
     socket,
     setPlayers,
     setFriendRequestList,
+    setPlayers,
   ]);
 };
 
 const getLobbyPlayersMap = (lobbies, players) => {
+  console.log(lobbies);
   const map = lobbies.reduce((accumulator, currentElement, currentIndex) => {
     currentElement.date = currentElement.date.toString().slice(0, 10);
     console.log(currentElement);

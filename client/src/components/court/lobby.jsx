@@ -6,7 +6,7 @@ import {
   HStack,
   VStack,
 } from "@chakra-ui/react";
-import { Divider, Progress } from "antd";
+import { Divider, Empty, Progress } from "antd";
 import LobbyPlayer from "./lobby-player";
 import { useParams } from "react-router-dom";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
@@ -20,6 +20,22 @@ const Lobby = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [capacity, setCapacity] = useState(0);
+  const [lobbyPlayers, setLobbyPLayers] = useState([]);
+  const [key, setKey] = useState(
+    `court:${id},time:${selectedTime},date:${selectedDate
+      .toString()
+      .slice(0, 10)},`
+  );
+
+  const getColor = () => {
+    if (capacity * 10 < 50) {
+      return "red";
+    } else if (capacity * 10 >= 50 && capacity * 10 < 90) {
+      return "yellow";
+    } else {
+      return "green";
+    }
+  };
 
   const handleJoin = () => {
     socket.emit(
@@ -27,12 +43,8 @@ const Lobby = () => {
       selectedDate,
       selectedTime,
       id,
-      ({ done, msg, player, court_id, selectedDate, selectedTime }) => {
+      ({ done, msg, player }) => {
         if (done) {
-          const key = `court:${court_id},time:${selectedTime},date:${selectedDate
-            .toString()
-            .slice(0, 10)},`;
-
           const map = players;
           let lobbyPlayers = [];
 
@@ -64,12 +76,8 @@ const Lobby = () => {
       selectedDate,
       selectedTime,
       id,
-      ({ done, msg, removedPlayer, court_id, selectedTime, selectedDate }) => {
+      ({ done, msg, removedPlayer }) => {
         if (done) {
-          const key = `court:${court_id},time:${selectedTime},date:${selectedDate
-            .toString()
-            .slice(0, 10)},`;
-
           const map = players;
           const lobbyPlayers = players.get(key);
           console.log(map);
@@ -120,16 +128,36 @@ const Lobby = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const key = `court:${id},time:${selectedTime},date:${selectedDate
+      .toString()
+      .slice(0, 10)},`;
+
+    setKey(key);
+    setLobbyPLayers(players.get(key));
+  }, [players, selectedDate, selectedTime]);
+
+  useEffect(() => {
+    const key = `court:${id},time:${selectedTime},date:${selectedDate
+      .toString()
+      .slice(0, 10)},`;
+    if (players.size > 0 && players.has(key)) {
+      setCapacity(players.get(key).length);
+    } else {
+      setCapacity(0);
+    }
+  }, [players, selectedDate, selectedTime]);
+
   return (
     <Box>
       <VStack alignItems={"flex-start"} width="95%" margin="auto">
         <HStack justifyContent={"space-between"} width="100%">
           <HStack>
-            <Heading size={"md"}>Lobby Capacity</Heading>
+            <Heading size={"md"}>Lobby Occupancy</Heading>
             <Progress
-              strokeColor={"green"}
+              strokeColor={getColor()}
               style={{ width: "200px" }}
-              percent={(capacity * 100) / 10}
+              percent={capacity * 10}
             ></Progress>
           </HStack>
 
@@ -159,29 +187,21 @@ const Lobby = () => {
         width="95%"
         margin="auto"
         spacing="20px"
+        border={"none"}
       >
-        {/* {players.get({
-          courtId: id,
-          selectedDate: selectedDate,
-          selectedTime: selectedTime,
-        }) ? (
-          players
-            .get({
-              courtId: id,
-              selectedDate: selectedDate,
-              selectedTime: selectedTime,
-            })
-            .map((player) => {
-              return (
-                <LobbyPlayer
-                  key={player.playerid}
-                  player={player}
-                ></LobbyPlayer>
-              );
-            })
+        {players.has(key) ? (
+          players.get(key).map((player) => {
+            return (
+              <LobbyPlayer key={player.playerid} player={player}></LobbyPlayer>
+            );
+          })
         ) : (
-          <h1>loading</h1>
-        )} */}
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={<span>No users in this lobby.</span>}
+            style={{ fontSize: "20px" }}
+          ></Empty>
+        )}
       </VStack>
     </Box>
   );
