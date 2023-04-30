@@ -43,19 +43,6 @@ const useSocketSetup = (
     });
 
     socket.on("joined", (lobbies, playersB) => {
-      // const key = `court:${court_id},time:${selectedTime},date:${selectedDate
-      //   .toString()
-      //   .slice(0, 10)},`;
-      // console.log(players.size);
-      // if (players.size > 0) {
-      //   const map = players;
-      //   const lobbyPlayers = map.get(key);
-      //   lobbyPlayers.push(newPlayer);
-      //   map.delete(key);
-      //   map.set(key, lobbyPlayers);
-      //   setPlayers(map);
-      // }
-
       const newPlayers = getLobbyPlayersMap(lobbies, playersB);
       setPlayers(newPlayers);
     });
@@ -105,10 +92,8 @@ const useSocketSetup = (
 };
 
 const getLobbyPlayersMap = (lobbies, players) => {
-  console.log(lobbies);
   const map = lobbies.reduce((accumulator, currentElement, currentIndex) => {
     currentElement.date = currentElement.date.toString().slice(0, 10);
-    console.log(currentElement);
     const key = `court:${currentElement.court_id},time:${
       currentElement.time_id
     },date:${currentElement.date.toString().slice(0, 10)},`;

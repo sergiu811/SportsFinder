@@ -17,7 +17,7 @@ const CourtListItem = ({ court }) => {
         <Image
           objectFit="scale-down"
           maxW={{ base: "100px", sm: "110px" }}
-          src={court.photo}
+          src={court.image}
           alt="Court image"
         />
         <Heading size="sm">{court.court_name}</Heading>

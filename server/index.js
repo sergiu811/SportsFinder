@@ -71,6 +71,49 @@ app.get("/lobby_players", async (req, res) => {
     res.sendStatus(500);
   }
 });
+app.post("/player/rating/:username", async (req, res) => {
+  const { username } = req.params;
+  const { rating } = req.body;
+
+  try {
+    const { rows } = await pool.query(
+      "SELECT * FROM player WHERE username = $1",
+      [username]
+    );
+
+    if (rows.length === 0) {
+      return res
+        .status(404)
+        .json({ error: `Player with username ${username} not found` });
+    }
+
+    const ratingResult = await pool.query(
+      "SELECT rating FROM player WHERE username = $1",
+      [username]
+    );
+
+    const currentRating = ratingResult.rows[0].rating;
+    let newRating = 0;
+    if (currentRating != null) {
+      newRating = (currentRating + rating) / 2;
+    } else {
+      newRating = rating;
+    }
+
+    console.log(newRating);
+
+    const result = await pool.query(
+      "UPDATE player SET rating = ($1) WHERE username = ($2)",
+      [newRating, username]
+    );
+
+    return res.status(201).json({ rating: newRating });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Error on updating the player's rating" });
+  }
+});
 
 app.post("/basketball_courts", async (req, res) => {
   const { court_name, court_longitude, court_latitude } = req.body;
@@ -108,6 +151,7 @@ app.get("/basketball_courts/:id", async (req, res) => {
       court_name: court.court_name,
       court_longitude: court.court_longitude,
       court_latitude: court.court_latitude,
+      image: court.image,
     });
   } catch (error) {
     console.error(error);

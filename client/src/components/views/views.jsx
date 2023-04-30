@@ -1,15 +1,15 @@
 import { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-import UserContext, { AccountContext } from "../account-context";
+import { AccountContext } from "../account-context";
 import Login from "../login/login";
 import PrivateRoutes from "../private-routes";
 import SignUp from "../signup/signup";
 import HomeComponent from "../home/home";
 import SocializeCompoenent from "../socialize/socializeComponent";
-import Toolbar from "../toolbar/toolbar";
 import MapComponent from "../map/map";
 import CourtPage from "../court/court";
-import { AppContext, AppProvider, useGlobalContext } from "../../context";
+import { AppProvider } from "../../context";
+import ProfilePage from "../profile/profile-page";
 
 const Views = () => {
   const { user } = useContext(AccountContext);
@@ -24,6 +24,7 @@ const Views = () => {
         <Route element={<PrivateRoutes />}>
           <Route path="home" element={<HomeComponent></HomeComponent>}></Route>
           <Route path="courts/:id" element={<CourtPage />} />
+          <Route path="player/:id" element={<ProfilePage></ProfilePage>} />
           <Route
             path="friends"
             element={<SocializeCompoenent></SocializeCompoenent>}

@@ -62,7 +62,6 @@ const Lobby = () => {
 
           map.set(key, lobbyPlayers);
           setPlayers(map);
-          console.log(players);
         } else {
           console.log(msg);
         }
@@ -80,7 +79,6 @@ const Lobby = () => {
         if (done) {
           const map = players;
           const lobbyPlayers = players.get(key);
-          console.log(map);
           const newLobbyPlayers = lobbyPlayers.filter(
             (el) => el.username !== removedPlayer
           );
@@ -96,27 +94,6 @@ const Lobby = () => {
     );
   };
 
-  // async function fetchPlayers() {
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:5001/lobby_players?court_id=${id}&&selectedTime=${selectedTime}&&selectedDate=${selectedDate}`
-  //     );
-  //     const key = JSON.stringify({
-  //       courtId: new Number(id),
-  //       time_id: new Number(selectedTime),
-  //       date: selectedDate.toString().slice(0, 10),
-  //     });
-
-  //     const data = await response.json();
-  //     setCapacity(data.length);
-  //     const map = players;
-  //     map.set(key, data);
-  //     setPlayers(map);
-  //   } catch (error) {
-  //     setError(error.message);
-  //   }
-  // }
-
   useEffect(() => {
     const key = `court:${id},time:${selectedTime},date:${selectedDate
       .toString()
@@ -126,7 +103,7 @@ const Lobby = () => {
       const lobbyplayers = players.get(key);
       setCapacity(lobbyplayers.length);
     }
-  }, []);
+  }, [id, players, selectedDate, selectedTime]);
 
   useEffect(() => {
     const key = `court:${id},time:${selectedTime},date:${selectedDate
@@ -135,7 +112,7 @@ const Lobby = () => {
 
     setKey(key);
     setLobbyPLayers(players.get(key));
-  }, [players, selectedDate, selectedTime]);
+  }, [players, selectedDate, selectedTime, id]);
 
   useEffect(() => {
     const key = `court:${id},time:${selectedTime},date:${selectedDate
@@ -146,7 +123,7 @@ const Lobby = () => {
     } else {
       setCapacity(0);
     }
-  }, [players, selectedDate, selectedTime]);
+  }, [players, selectedDate, selectedTime, id]);
 
   return (
     <Box>
@@ -186,7 +163,6 @@ const Lobby = () => {
         overflowY={"scroll"}
         width="95%"
         margin="auto"
-        spacing="20px"
         border={"none"}
       >
         {players.has(key) ? (
