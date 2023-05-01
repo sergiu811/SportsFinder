@@ -36,7 +36,11 @@ const LobbySelection = () => {
             label: option.time_interval,
           };
         });
-        setTimeIntervals(options);
+        const currentHour = new Date().getHours();
+        const newTimeIntervals = options.filter(
+          (elem) => elem.label.slice(0, 2) > currentHour
+        );
+        setTimeIntervals(newTimeIntervals);
       } catch (error) {
         setError(error.message);
       }

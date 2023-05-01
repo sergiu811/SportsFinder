@@ -22,8 +22,15 @@ const ChatBox = ({ userid }) => {
         }
       }}
     >
-      <HStack as={Form} w="100%" pb="10px" px="1.4rem">
+      <HStack color={"white"} as={Form} w="100%" pb="10px" px="1.4rem">
         <Input
+          sx={{
+            "::placeholder": {
+              color: "white",
+              fontWeight: "bold",
+            },
+          }}
+          bg={"rgba(0, 0, 0, 0.5)"}
           as={Field}
           name="message"
           placeholder="Type message here.."

@@ -24,7 +24,14 @@ const CourtList = () => {
     fetchCourts();
   }, []);
   return (
-    <Box shadow={"dark-lg"} borderRadius="10px" m="10px">
+    <Box
+      bg={"rgba(0, 0, 0, 0.5)"}
+      shadow={"dark-lg"}
+      borderRadius="10px"
+      m="10px"
+      color={"white"}
+      overflowX={"hidden"}
+    >
       <Box borderRadius="10px" height="60px" mb="10px">
         <Heading p="10px">Available Courts</Heading>
         <Divider></Divider>

@@ -28,6 +28,7 @@ const ProfileCard = () => {
       shadow={"dark-lg"}
       borderRadius={"10px"}
       height="460px"
+      bg={"rgba(0, 0, 0, 0.5)"}
       m="10px"
     >
       <CardBody>

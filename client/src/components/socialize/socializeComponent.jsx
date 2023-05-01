@@ -25,16 +25,31 @@ const SocializeCompoenent = () => {
 
   return (
     <Grid as={Tabs} templateColumns={"0.6fr 9fr"} w="100%">
-      <GridItem borderRadius="10px" m="10px" mt="1vh" shadow={"dark-lg"}>
+      <GridItem
+        bg={"rgba(0, 0, 0, 0.5)"}
+        borderRadius="10px"
+        color={"white"}
+        m="10px"
+        mt="1vh"
+        shadow={"dark-lg"}
+      >
         <VStack as={TabList} h="80vh" border="none" pt="45px">
           <Tab>
-            <Badge count={friendList.length}>
-              <Icon width="30px" height="30px" as={HiChatBubbleLeftRight} />
-            </Badge>
+            <Icon
+              color={"white"}
+              width="30px"
+              height="30px"
+              as={HiChatBubbleLeftRight}
+            />
           </Tab>
           <Tab>
             <Badge count={friendRequestList.length}>
-              <Icon width="30px" height="30px" as={FaUserFriends} />
+              <Icon
+                color={"white"}
+                width="30px"
+                height="30px"
+                as={FaUserFriends}
+              />
             </Badge>
           </Tab>
           <HStack onClick={onOpen}>
@@ -43,7 +58,13 @@ const SocializeCompoenent = () => {
         </VStack>
         <AddFriendModal isOpen={isOpen} onClose={onClose} />
       </GridItem>
-      <GridItem borderRadius="10px" m="10px" mt="1vh" shadow={"dark-lg"}>
+      <GridItem
+        bg={"rgba(0, 0, 0, 0.5)"}
+        borderRadius="10px"
+        m="10px"
+        mt="1vh"
+        shadow={"dark-lg"}
+      >
         <TabPanels>
           <TabPanel padding="0">
             <FriendsChatComponent />

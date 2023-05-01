@@ -1,4 +1,4 @@
-import { Box, Divider, Heading, Wrap } from "@chakra-ui/react";
+import { AbsoluteCenter, Box, Divider, Heading, Wrap } from "@chakra-ui/react";
 import RequestCard from "./requestCard";
 import { Empty } from "antd";
 import { useGlobalContext } from "../../context";
@@ -7,9 +7,12 @@ const FriendRequests = () => {
   const { friendRequestList } = useGlobalContext();
   return (
     <Box w="100%" margin="auto" maxHeight="82vh" h="82vh">
-      <Heading size="md" pl="5px">
-        Friend requests
-      </Heading>
+      <Box position={"relative"} p="10px">
+        <AbsoluteCenter>
+          <Heading size="md">Friend requests</Heading>
+        </AbsoluteCenter>
+      </Box>
+
       <Divider mb="5" mt="5"></Divider>
       {friendRequestList.length > 0 ? (
         <Wrap spacing="10" overflowY="scroll" pb="10px" p="10px" maxH="90vh">
@@ -28,10 +31,28 @@ const FriendRequests = () => {
         //     No requests
         //   </Heading>
         // </Box>
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={<span>No friend requestss</span>}
-        ></Empty>
+        <Box h="82vh" position={"relative"}>
+          <Empty
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              marginTop: "60px",
+            }}
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={
+              <span
+                style={{
+                  color: "white",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                }}
+              >
+                No friend requests
+              </span>
+            }
+          ></Empty>
+        </Box>
       )}
     </Box>
   );

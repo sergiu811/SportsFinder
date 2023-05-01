@@ -22,6 +22,25 @@ const LobbyPlayer = ({ player }) => {
     setCurrentUser(jwt_decode(user.token));
   }, []);
 
+  const { socket, friendList } = useGlobalContext();
+
+  useEffect(() => {
+    isFriend();
+  }, [friendList]);
+
+  const isFriend = () => {
+    return friendList.some((user) => user.username === player.username);
+  };
+
+  const handleAddFriend = (username) => {
+    socket.emit("add_friend", username, ({ errorMsg, done }) => {
+      if (done) {
+        console.log("added");
+      }
+      console.log(errorMsg);
+    });
+  };
+
   const isSameUser = () => {
     return currentUser && currentUser.username === player.username;
   };
@@ -46,8 +65,15 @@ const LobbyPlayer = ({ player }) => {
         </HStack>
         {!isSameUser() ? (
           <HStack>
-            <Button leftIcon={<FaUserPlus></FaUserPlus>}>Add Friend</Button>
             <Button onClick={onOpen}>View Profile</Button>
+            {!isFriend() === true && (
+              <Button
+                leftIcon={<FaUserPlus></FaUserPlus>}
+                onClick={() => handleAddFriend(player.username)}
+              >
+                Add Friend
+              </Button>
+            )}
           </HStack>
         ) : (
           <></>

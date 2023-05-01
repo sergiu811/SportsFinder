@@ -40,7 +40,7 @@ const FriendsChat = () => {
               </Avatar>
             </GridItem>
             <GridItem>
-              <Text>{friend.username}</Text>
+              <Text fontWeight={"bold"}>{friend.username}</Text>
             </GridItem>
           </Grid>
         ))}

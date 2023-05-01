@@ -1,8 +1,10 @@
 import {
   AbsoluteCenter,
+  Box,
   Button,
   Grid,
   GridItem,
+  Heading,
   Image,
   useColorMode,
 } from "@chakra-ui/react";
@@ -24,60 +26,50 @@ const Toolbar = () => {
   }, [colorMode]);
 
   return (
-    <Grid
-      height="10vh"
-      templateColumns="1fr 1fr 1fr 1fr 1fr "
-      boxShadow="1px 3px 20px 1px"
-      borderRadius="10px"
-      m="10px"
-      p="3px"
-    >
-      <GridItem></GridItem>
-      <GridItem position="relative" h="10vh">
-        <AbsoluteCenter>
-          <NavLink
-            to="/map"
-            className={({ isActive }) =>
-              isActive ? classes.active : classes.default
-            }
-          >
-            Map
-          </NavLink>
-        </AbsoluteCenter>
-      </GridItem>
-      <GridItem textAlign="center" position="relative">
-        <AbsoluteCenter axis="both">
-          <NavLink
-            to="home"
-            className={({ isActive }) =>
-              isActive ? classes.imageActive : classes.default
-            }
-          >
-            <Image
-              boxSize="9vh"
-              borderRadius="full"
-              objectFit="contain"
-              src={logo}
-            ></Image>
-          </NavLink>
-        </AbsoluteCenter>
-      </GridItem>
-      <GridItem position="relative" h="10vh">
-        <AbsoluteCenter>
-          <NavLink
-            to="/friends"
-            className={({ isActive }) =>
-              isActive ? classes.active : classes.default
-            }
-          >
-            Socialize
-          </NavLink>
-        </AbsoluteCenter>
-      </GridItem>
-      <GridItem position="relative" h="10vh">
-        <ToggleColorMode />
-      </GridItem>
-    </Grid>
+    <Box p="10px">
+      <Grid
+        height="10vh"
+        templateColumns="1fr 1fr 1fr "
+        boxShadow="1px 1px 10px 0px"
+        borderRadius="10px"
+        bg={"rgba(0, 0, 0, 0.5)"}
+        p="3px"
+      >
+        <GridItem textAlign="center" position="relative">
+          <AbsoluteCenter>
+            <NavLink
+              to="home"
+              className={({ isActive }) =>
+                isActive ? classes.imageActive : classes.default
+              }
+            >
+              <Image
+                boxSize="9vh"
+                borderRadius="full"
+                objectFit="contain"
+                src={logo}
+              ></Image>
+            </NavLink>
+          </AbsoluteCenter>
+        </GridItem>
+
+        <GridItem position="relative" h="10vh">
+          <AbsoluteCenter>
+            <NavLink
+              to="/friends"
+              className={({ isActive }) =>
+                isActive ? classes.active : classes.default
+              }
+            >
+              Socialize
+            </NavLink>
+          </AbsoluteCenter>
+        </GridItem>
+        <GridItem position="relative" h="10vh">
+          <ToggleColorMode />
+        </GridItem>
+      </Grid>
+    </Box>
   );
 };
 export default Toolbar;

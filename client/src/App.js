@@ -1,7 +1,7 @@
 import UserContext, { AccountContext } from "./components/account-context";
-import Toolbar from "./components/toolbar/toolbar";
 import Views from "./components/views/views";
-import { AppProvider } from "./context";
+import { Box } from "@chakra-ui/react";
+import background from "../src/assets/background2.jpeg";
 
 function App() {
   return (

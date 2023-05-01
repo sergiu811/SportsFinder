@@ -138,7 +138,9 @@ const Lobby = () => {
             ></Progress>
           </HStack>
 
-          <ButtonGroup>
+          <ButtonGroup
+            isDisabled={selectedDate < new Date().toISOString().slice(0, 10)}
+          >
             <Button
               leftIcon={<FaSignInAlt></FaSignInAlt>}
               _hover={{ backgroundColor: "green.400" }}
@@ -172,11 +174,28 @@ const Lobby = () => {
             );
           })
         ) : (
-          <Empty
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            description={<span>No users in this lobby.</span>}
-            style={{ fontSize: "20px" }}
-          ></Empty>
+          <Box h="82vh" position={"relative"}>
+            <Empty
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                marginTop: "60px",
+              }}
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description={
+                <div
+                  style={{
+                    color: "white",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  No users in the lobby
+                </div>
+              }
+            ></Empty>
+          </Box>
         )}
       </VStack>
     </Box>
