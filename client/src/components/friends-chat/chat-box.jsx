@@ -30,7 +30,7 @@ const ChatBox = ({ userid }) => {
               fontWeight: "bold",
             },
           }}
-          bg={"rgba(0, 0, 0, 0.5)"}
+          bg={"rgba(25, 25, 25, 0.9)"}
           as={Field}
           name="message"
           placeholder="Type message here.."

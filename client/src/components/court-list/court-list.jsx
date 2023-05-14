@@ -25,9 +25,10 @@ const CourtList = () => {
   }, []);
   return (
     <Box
-      bg={"rgba(0, 0, 0, 0.5)"}
+      bg={"rgba(25, 25, 25, 0.9)"}
       shadow={"dark-lg"}
       borderRadius="10px"
+      p="0"
       m="10px"
       color={"white"}
       overflowX={"hidden"}
@@ -36,7 +37,12 @@ const CourtList = () => {
         <Heading p="10px">Available Courts</Heading>
         <Divider></Divider>
       </Box>
-      <VStack height="460px" overflow="scroll" boxSizing="border-box">
+      <VStack
+        height="460px"
+        overflowY="scroll"
+        mb={"10px"}
+        boxSizing="border-box"
+      >
         {courts.map((court) => (
           <CourtListItem key={court.court_id} court={court}></CourtListItem>
         ))}

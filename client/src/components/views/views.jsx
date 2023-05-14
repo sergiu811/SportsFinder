@@ -9,6 +9,7 @@ import SocializeCompoenent from "../socialize/socializeComponent";
 import MapComponent from "../map/map";
 import CourtPage from "../court/court";
 import { AppProvider } from "../../context";
+import ProfileModal from "../profile/profile-modal";
 import ProfilePage from "../profile/profile-page";
 
 const Views = () => {
@@ -24,7 +25,7 @@ const Views = () => {
         <Route element={<PrivateRoutes />}>
           <Route path="home" element={<HomeComponent></HomeComponent>}></Route>
           <Route path="courts/:id" element={<CourtPage />} />
-          <Route path="player/:id" element={<ProfilePage></ProfilePage>} />
+          <Route path="profile" element={<ProfilePage></ProfilePage>} />
           <Route
             path="friends"
             element={<SocializeCompoenent></SocializeCompoenent>}

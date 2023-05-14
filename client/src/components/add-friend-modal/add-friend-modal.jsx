@@ -32,7 +32,11 @@ const AddFriendModal = ({ isOpen, onClose }) => {
   const [buttonMessage, setButtonMessage] = useState("Send");
 
   return (
-    <Modal bg={"rgba(0, 0, 0, 0.5)"} isOpen={isOpen} onClose={closeModal}>
+    <Modal
+      bg={"rgba(25, 25, 25, 0.9) !important"}
+      isOpen={isOpen}
+      onClose={closeModal}
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Add a friend!</ModalHeader>

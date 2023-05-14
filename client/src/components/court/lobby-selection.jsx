@@ -23,6 +23,16 @@ const LobbySelection = () => {
   const setTime = (value) => {
     setSelectedTime(value);
   };
+
+  const getTimeIntervals = (options) => {
+    const currentHour = new Date().getHours();
+    if (selectedDate === dayjs().format("YYYY-MM-DD")) {
+      return options.filter((elem) => elem.label.slice(0, 2) > currentHour);
+    } else {
+      return options;
+    }
+  };
+
   useEffect(() => {
     async function fetchTimeInterval() {
       setIsLoading(true);
@@ -36,10 +46,8 @@ const LobbySelection = () => {
             label: option.time_interval,
           };
         });
-        const currentHour = new Date().getHours();
-        const newTimeIntervals = options.filter(
-          (elem) => elem.label.slice(0, 2) > currentHour
-        );
+
+        const newTimeIntervals = getTimeIntervals(options);
         setTimeIntervals(newTimeIntervals);
       } catch (error) {
         setError(error.message);
@@ -48,7 +56,7 @@ const LobbySelection = () => {
       setIsLoading(false);
     }
     fetchTimeInterval();
-  }, []);
+  }, [selectedDate]);
 
   useEffect(() => {
     if (time_intervals.length > 0 && time_intervals !== undefined) {

@@ -26,7 +26,7 @@ const SocializeCompoenent = () => {
   return (
     <Grid as={Tabs} templateColumns={"0.6fr 9fr"} w="100%">
       <GridItem
-        bg={"rgba(0, 0, 0, 0.5)"}
+        bg={"rgba(25, 25, 25, 0.9)"}
         borderRadius="10px"
         color={"white"}
         m="10px"
@@ -59,7 +59,7 @@ const SocializeCompoenent = () => {
         <AddFriendModal isOpen={isOpen} onClose={onClose} />
       </GridItem>
       <GridItem
-        bg={"rgba(0, 0, 0, 0.5)"}
+        bg={"rgba(25, 25, 25, 0.9)"}
         borderRadius="10px"
         m="10px"
         mt="1vh"

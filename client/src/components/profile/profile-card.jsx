@@ -1,63 +1,144 @@
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Card,
   Heading,
   Button,
-  ButtonGroup,
   Text,
   Divider,
   CardBody,
   Stack,
   CardFooter,
   Center,
-  Box,
-  Image,
-  Badge,
+  VStack,
+  Input,
+  Grid,
 } from "@chakra-ui/react";
+import jwt_decode from "jwt-decode";
+import ReactStars from "react-rating-stars-component";
+import { FaStar, FaRegStar, FaStarHalf } from "react-icons/fa";
 
 const ProfileCard = () => {
-  const user = {
-    name: "John Doe",
-    email: "johndoe@example.com",
-    avatar: "https://i.pravatar.cc/150?img=3",
-    status: "Active",
+  const [user, setUser] = useState();
+  const [height, setHeight] = useState();
+  const [age, setAge] = useState();
+
+  const getUserDetails = async () => {
+    const decodedToken = jwt_decode(localStorage.getItem("token"));
+
+    const response = await fetch(
+      `http://localhost:5001/player/${decodedToken.username}`
+    );
+    const data = await response.json();
+    setUser(data[0]);
+    setHeight(data[0].height);
+    setAge(data[0].age);
   };
-  return (
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+
+  const handleHeightChange = (event) => {
+    setHeight(event.target.value);
+  };
+
+  const handleAgeChange = (event) => {
+    setAge(event.target.value);
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5001/player/${user.username}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            height: height ? height : null,
+            age: age ? age : null,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        // Update the user object with the new height and age values
+        setUser((prevUser) => ({
+          ...prevUser,
+          height: height,
+          age: age,
+        }));
+        console.log("User details updated successfully!");
+      } else {
+        console.log("Failed to update user details");
+      }
+    } catch (error) {
+      console.error("Error updating user details:", error);
+    }
+  };
+
+  return user ? (
     <Card
-      maxW="sm"
+      width="40%"
+      margin="auto"
       shadow={"dark-lg"}
       borderRadius={"10px"}
-      height="460px"
-      bg={"rgba(0, 0, 0, 0.5)"}
-      m="10px"
+      height="85vh"
+      bg={"rgba(25, 25, 25, 0.9)"}
     >
       <CardBody>
         <Center>
-          {" "}
-          <Avatar></Avatar>
+          <Avatar name={user.username}></Avatar>
         </Center>
 
         <Stack mt="6" spacing="3">
           <Center>
-            <Heading size="md">Name</Heading>
+            <Heading size="md">{user.username}</Heading>
           </Center>
-
-          <Text>
-            This sofa is perfect for modern tropical spaces, baroque inspired
-            spaces, earthy toned spaces and for people who love a chic design
-            with a sprinkle of vintage design.
-          </Text>
+          <Divider />
+          <Center>
+            <VStack spacing={4}>
+              <Grid templateColumns="1fr 9fr" gap={6}>
+                <Text>Rating:</Text>
+                <ReactStars
+                  edit={false}
+                  fullIcon={<FaStar></FaStar>}
+                  halfIcon={<FaStarHalf></FaStarHalf>}
+                  emptyIcon={<FaRegStar></FaRegStar>}
+                  value={user.rating}
+                ></ReactStars>
+                <Text>Age:</Text>
+                <Input
+                  type="number"
+                  value={age ? age : ""}
+                  onChange={handleAgeChange}
+                />
+                <Text>Height:</Text>
+                <Input
+                  min={0}
+                  type="number"
+                  value={height ? height : ""}
+                  onChange={handleHeightChange}
+                />
+              </Grid>
+            </VStack>
+          </Center>
         </Stack>
       </CardBody>
       <Divider />
       <Center>
         <CardFooter>
-          <Button variant="solid" colorScheme="blue">
-            Buy now
+          <Button variant="solid" onClick={handleUpdate}>
+            Update
           </Button>
         </CardFooter>
       </Center>
     </Card>
+  ) : (
+    <></>
   );
 };
+
 export default ProfileCard;

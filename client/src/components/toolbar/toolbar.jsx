@@ -1,38 +1,51 @@
 import {
   AbsoluteCenter,
+  Avatar,
   Box,
-  Button,
   Grid,
   GridItem,
   Heading,
+  HStack,
   Image,
   useColorMode,
 } from "@chakra-ui/react";
 import classes from "./toolbar.module.css";
 import logoDark from "../../assets/logo-dark.png";
 import logoLight from "../../assets/logo-light.png";
-import ToggleColorMode from "../toggle";
-import { Center } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import { CgProfile } from "react-icons/cg";
+import { Button } from "bootstrap";
 
 const Toolbar = () => {
-  const { colorMode } = useColorMode();
   const [logo, setlogo] = useState(logoLight);
 
+  const [user, setUser] = useState();
+
+  const getUserDetails = async () => {
+    const decodedToken = jwt_decode(localStorage.getItem("token"));
+
+    const response = await fetch(
+      `http://localhost:5001/player/${decodedToken.username}`
+    );
+
+    const data = await response.json();
+    setUser(data[0]);
+  };
+
   useEffect(() => {
-    if (colorMode === "dark") setlogo(logoLight);
-    else setlogo(logoDark);
-  }, [colorMode]);
+    getUserDetails();
+  }, []);
 
   return (
     <Box p="10px">
       <Grid
+        shadow={"dark-lg"}
         height="10vh"
         templateColumns="1fr 1fr 1fr "
-        boxShadow="1px 1px 10px 0px"
         borderRadius="10px"
-        bg={"rgba(0, 0, 0, 0.5)"}
+        bg={"rgba(25, 25, 25, 0.9)"}
         p="3px"
       >
         <GridItem textAlign="center" position="relative">
@@ -66,7 +79,21 @@ const Toolbar = () => {
           </AbsoluteCenter>
         </GridItem>
         <GridItem position="relative" h="10vh">
-          <ToggleColorMode />
+          {user && (
+            <AbsoluteCenter>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive ? classes.active : classes.default
+                }
+              >
+                <HStack>
+                  <Heading size={"sm"}>{user.username}</Heading>
+                  <CgProfile size={25}></CgProfile>
+                </HStack>
+              </NavLink>
+            </AbsoluteCenter>
+          )}
         </GridItem>
       </Grid>
     </Box>

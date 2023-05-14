@@ -12,7 +12,7 @@ import { FaStar, FaRegStar, FaStarHalf, FaUserPlus } from "react-icons/fa";
 import { useGlobalContext } from "../../context";
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
-import ProfilePage from "../profile/profile-page";
+import ProfileModal from "../profile/profile-modal";
 
 const LobbyPlayer = ({ player }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -49,7 +49,13 @@ const LobbyPlayer = ({ player }) => {
     <Box width="100%">
       <HStack
         p="10px"
-        backgroundColor={isSameUser() ? "gray.100" : "white"}
+        marginTop="2px"
+        textColor="#F5F5F5"
+        boxShadow={isSameUser() ? "0px 1px 0px 0px orange" : "none"}
+        borderRadius="10px"
+        backgroundColor={
+          isSameUser() ? "rgba(100,100,110,0.4)" : "transaparent"
+        }
         justifyContent={"space-between"}
       >
         <HStack>
@@ -80,11 +86,11 @@ const LobbyPlayer = ({ player }) => {
         )}
       </HStack>
       <Divider></Divider>
-      <ProfilePage
+      <ProfileModal
         isOpen={isOpen}
         onClose={onClose}
         player={player}
-      ></ProfilePage>
+      ></ProfileModal>
     </Box>
   );
 };

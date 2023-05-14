@@ -7,9 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { ColorModeScript } from "@chakra-ui/color-mode";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./components/theme";
-import Toolbar from "./components/toolbar/toolbar";
-import { AppContext, AppProvider } from "./context";
-import UserContext from "./components/account-context";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <>

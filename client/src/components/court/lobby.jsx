@@ -135,6 +135,9 @@ const Lobby = () => {
               strokeColor={getColor()}
               style={{ width: "200px" }}
               percent={capacity * 10}
+              format={(percent) => (
+                <span style={{ color: "white" }}>{`${percent}%`}</span>
+              )}
             ></Progress>
           </HStack>
 
