@@ -38,8 +38,10 @@ const AddFriendModal = ({ isOpen, onClose }) => {
       onClose={closeModal}
     >
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Add a friend!</ModalHeader>
+      <ModalContent backgroundColor={"rgba(25, 25, 25, 1)"}>
+        <ModalHeader fontSize={"24px"} color="rgba(240,240,240,0.9)">
+          Add a friend!
+        </ModalHeader>
         <ModalCloseButton />
         <Formik
           initialValues={{ friendName: "" }}
@@ -62,10 +64,12 @@ const AddFriendModal = ({ isOpen, onClose }) => {
         >
           <Form>
             <ModalBody>
-              <Heading fontSize="l" color="red.500" textAlign="left" p="2px">
+              <Heading fontSize="24px" color="red.500" textAlign="left" p="2px">
                 {error}
               </Heading>
               <TextField
+                fontSize={"24px"}
+                color="rgba(240,240,240,0.9)"
                 placeholder="Enter friend's username.."
                 autoComplete="off"
                 name="friendName"
@@ -73,6 +77,9 @@ const AddFriendModal = ({ isOpen, onClose }) => {
             </ModalBody>
             <ModalFooter>
               <Button
+                paddingLeft={"30px"}
+                paddingRight={"30px"}
+                fontSize={"24px"}
                 colorScheme={buttonMessage === "Send" ? "gray" : "green"}
                 type="submit"
               >

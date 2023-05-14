@@ -73,7 +73,10 @@ const LobbySelection = () => {
       <DatePicker
         defaultValue={dayjs(selectedDate, dateFormat)}
         size="large"
-        style={{ width: "90%" }}
+        style={{
+          width: "90%",
+        }}
+        dropdownAlign={"center"}
         onChange={setDate}
         clearIcon={false}
       />

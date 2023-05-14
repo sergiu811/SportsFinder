@@ -7,19 +7,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { ColorModeScript } from "@chakra-ui/color-mode";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./components/theme";
-import { ConfigProvider } from "antd";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <>
-    <ConfigProvider direction="rtl">
-      <ChakraProvider theme={theme}>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ChakraProvider>
-    </ConfigProvider>
+    <ChakraProvider theme={theme}>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ChakraProvider>
   </>
 );
 

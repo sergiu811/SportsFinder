@@ -14,14 +14,15 @@ import {
 import FriendsChatComponent from "../friends-chat/friends-chat-component";
 import AddFriendModal from "../add-friend-modal/add-friend-modal";
 import FriendRequests from "./friendRequests";
-import { FaUserFriends, FaUserPlus } from "react-icons/fa";
+import { FaUserPlus } from "react-icons/fa";
+import { SiHandshake } from "react-icons/si";
 import { HiChatBubbleLeftRight } from "react-icons/hi2";
 import { Badge } from "antd";
 import { useGlobalContext } from "../../context";
 
 const SocializeCompoenent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { friendList, friendRequestList } = useGlobalContext();
+  const { friendRequestList } = useGlobalContext();
 
   return (
     <Grid as={Tabs} templateColumns={"0.6fr 9fr"} w="100%">
@@ -48,7 +49,7 @@ const SocializeCompoenent = () => {
                 color={"white"}
                 width="30px"
                 height="30px"
-                as={FaUserFriends}
+                as={SiHandshake}
               />
             </Badge>
           </Tab>

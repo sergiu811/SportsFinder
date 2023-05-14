@@ -11,7 +11,7 @@ const TextField = ({ label, ...props }) => {
   return (
     <FormControl isInvalid={meta.touched && meta.error}>
       <FormLabel>{label}</FormLabel>
-      <Input as={Field} {...field} {...props} />
+      <Input color="rgba(240,240,240,0.9)" as={Field} {...field} {...props} />
       <FormErrorMessage>{meta.error}</FormErrorMessage>
     </FormControl>
   );

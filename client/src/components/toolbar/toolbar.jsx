@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { CgProfile } from "react-icons/cg";
+import { FaUserFriends } from "react-icons/fa";
 import { Button } from "bootstrap";
 
 const Toolbar = () => {
@@ -60,31 +61,32 @@ const Toolbar = () => {
           </AbsoluteCenter>
         </GridItem>
 
-        <GridItem position="relative" h="10vh">
-          <AbsoluteCenter>
-            <NavLink
-              to="/friends"
-              className={({ isActive }) =>
-                isActive ? classes.active : classes.default
-              }
-            >
-              Socialize
-            </NavLink>
-          </AbsoluteCenter>
-        </GridItem>
+        <GridItem position="relative" h="10vh"></GridItem>
         <GridItem position="relative" h="10vh">
           {user && (
             <AbsoluteCenter>
-              <NavLink
-                to="/profile"
-                className={({ isActive }) =>
-                  isActive ? classes.active : classes.default
-                }
-              >
-                <HStack>
-                  <CgProfile size={30}></CgProfile>
+              <AbsoluteCenter>
+                <HStack gap={"50px"}>
+                  <NavLink
+                    to="/friends"
+                    className={({ isActive }) =>
+                      isActive ? classes.active : classes.default
+                    }
+                  >
+                    <FaUserFriends />
+                  </NavLink>
+                  <NavLink
+                    to="/profile"
+                    className={({ isActive }) =>
+                      isActive ? classes.active : classes.default
+                    }
+                  >
+                    <HStack>
+                      <CgProfile size={30}></CgProfile>
+                    </HStack>
+                  </NavLink>
                 </HStack>
-              </NavLink>
+              </AbsoluteCenter>
             </AbsoluteCenter>
           )}
         </GridItem>

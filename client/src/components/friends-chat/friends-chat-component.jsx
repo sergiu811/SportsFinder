@@ -26,7 +26,9 @@ const FriendsChatComponent = () => {
       </GridItem>
       <GridItem maxH="82vh" colSpan="8">
         <VStack pt="20px" borderRadius="10px">
-          <Heading size="md">Chat </Heading>
+          <Heading fontSize={"24px"} color="rgba(240,240,240,0.9)">
+            Chat{" "}
+          </Heading>
           <Divider />
         </VStack>
         <Chat userid={friendList[friendIndex]?.userid} />

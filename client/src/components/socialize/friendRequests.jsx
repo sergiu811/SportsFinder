@@ -6,16 +6,18 @@ import { useGlobalContext } from "../../context";
 const FriendRequests = () => {
   const { friendRequestList } = useGlobalContext();
   return (
-    <Box w="100%" margin="auto" maxHeight="82vh" h="82vh">
+    <Box w="100%" margin="auto" maxHeight="81vh" height={"82vh"}>
       <Box position={"relative"} p="10px">
         <AbsoluteCenter>
-          <Heading size="md">Friend requests</Heading>
+          <Heading fontSize={"24px"} color="rgba(240,240,240,0.9)">
+            Friend requests
+          </Heading>
         </AbsoluteCenter>
       </Box>
 
       <Divider mb="5" mt="5"></Divider>
       {friendRequestList.length > 0 ? (
-        <Wrap spacing="10" overflowY="scroll" pb="10px" p="10px" maxH="90vh">
+        <Wrap spacing="10" overflowY="scroll" pb="10px" p="10px" maxH="80vh">
           {friendRequestList.map((friendRequest) => {
             return (
               <RequestCard
@@ -26,12 +28,7 @@ const FriendRequests = () => {
           })}
         </Wrap>
       ) : (
-        // <Box borderRadius="10px" m="10px" boxShadow="1px 3px 7px 1px" p="20px">
-        //   <Heading size="sm" align="center">
-        //     No requests
-        //   </Heading>
-        // </Box>
-        <Box h="82vh" position={"relative"}>
+        <Box position={"relative"}>
           <Empty
             style={{
               display: "flex",

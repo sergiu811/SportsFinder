@@ -15,7 +15,9 @@ const FriendsChat = () => {
   const { friendList } = useGlobalContext();
   return (
     <VStack pt="20px">
-      <Heading size="md">Friends</Heading>
+      <Heading fontSize={"24px"} color="rgba(240,240,240,0.9)">
+        Friends
+      </Heading>
       <Divider />
       <VStack
         as={TabList}
