@@ -3,6 +3,8 @@
   padding: 10px;
   transition: 0.1s ease-in;
   font-weight: bold;
+  font-size: 25px;
+  color: rgba(240, 240, 240, 0.9);
 }
 .active:hover {
   color: grey;
@@ -15,6 +17,8 @@
   font-weight: bold;
   position: relative;
   display: inline-block;
+  font-size: 25px;
+  color: rgba(240, 240, 240, 0.9);
 }
 
 .default:hover {

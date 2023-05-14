@@ -5,6 +5,7 @@ import {
   HStack,
   Divider,
   VStack,
+  Box,
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
@@ -12,21 +13,31 @@ import { useNavigate } from "react-router-dom";
 const CourtListItem = ({ court }) => {
   const navigate = useNavigate();
   return (
-    <VStack w="100%" p="5px" pl="10px" pr="10px" borderRadius="10px">
-      <HStack w="100%" justifyContent="space-between">
-        <Image
-          objectFit="scale-down"
-          maxW={{ base: "100px", sm: "110px" }}
-          src={court.image}
-          alt="Court image"
-        />
-        <Heading size="sm">{court.court_name}</Heading>
-        <Button onClick={() => navigate(`/courts/${court.court_id}`)}>
+    <Box
+      width={"fit-content"}
+      height={"100%"}
+      bg={"rgba(25,25,25,0.9)"}
+      p="10px"
+      pl="10px"
+      pr="10px"
+      borderRadius="10px"
+    >
+      <VStack>
+        <Image maxW={{ sm: "32vw" }} src={court.image} alt="Court image" />
+        <Heading padding="10px" size="lg">
+          {court.court_name}
+        </Heading>
+        <Button
+          fontSize={"24px"}
+          paddingLeft={"30px"}
+          paddingRight={"30px"}
+          color="rgba(240,240,240,0.9)"
+          onClick={() => navigate(`/courts/${court.court_id}`)}
+        >
           Go to court
         </Button>
-      </HStack>
-      <Divider></Divider>
-    </VStack>
+      </VStack>
+    </Box>
   );
 };
 

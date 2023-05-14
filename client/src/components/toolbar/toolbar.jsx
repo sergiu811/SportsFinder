@@ -1,16 +1,12 @@
 import {
   AbsoluteCenter,
-  Avatar,
   Box,
   Grid,
   GridItem,
-  Heading,
   HStack,
   Image,
-  useColorMode,
 } from "@chakra-ui/react";
 import classes from "./toolbar.module.css";
-import logoDark from "../../assets/logo-dark.png";
 import logoLight from "../../assets/logo-light.png";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -19,8 +15,6 @@ import { CgProfile } from "react-icons/cg";
 import { Button } from "bootstrap";
 
 const Toolbar = () => {
-  const [logo, setlogo] = useState(logoLight);
-
   const [user, setUser] = useState();
 
   const getUserDetails = async () => {
@@ -60,7 +54,7 @@ const Toolbar = () => {
                 boxSize="9vh"
                 borderRadius="full"
                 objectFit="contain"
-                src={logo}
+                src={logoLight}
               ></Image>
             </NavLink>
           </AbsoluteCenter>
@@ -88,8 +82,7 @@ const Toolbar = () => {
                 }
               >
                 <HStack>
-                  <Heading size={"sm"}>{user.username}</Heading>
-                  <CgProfile size={25}></CgProfile>
+                  <CgProfile size={30}></CgProfile>
                 </HStack>
               </NavLink>
             </AbsoluteCenter>

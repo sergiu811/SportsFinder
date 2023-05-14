@@ -1,10 +1,22 @@
 import { VStack, Box, Heading, Divider } from "@chakra-ui/react";
 import CourtListItem from "./court-list-item";
 import { useState, useEffect } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow, Pagination, Virtual } from "swiper";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+
 const CourtList = () => {
   const [courts, setCourts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const onChange = (value) => {
+    setCurrentSlide(value);
+  };
 
   useEffect(() => {
     async function fetchCourts() {
@@ -23,31 +35,42 @@ const CourtList = () => {
 
     fetchCourts();
   }, []);
+
   return (
     <Box
-      bg={"rgba(25, 25, 25, 0.9)"}
-      shadow={"dark-lg"}
-      borderRadius="10px"
-      p="0"
-      m="10px"
-      color={"white"}
-      overflowX={"hidden"}
+      width={"100vw"}
+      display="flex"
+      margin={"auto"}
+      marginTop="40px"
+      justifyContent="center"
+      padding={"20px"}
     >
-      <Box borderRadius="10px" height="60px" mb="10px">
-        <Heading p="10px">Available Courts</Heading>
-        <Divider></Divider>
-      </Box>
-      <VStack
-        height="460px"
-        overflowY="scroll"
-        mb={"10px"}
-        boxSizing="border-box"
+      <Swiper
+        effect={"coverflow"}
+        grabCursor={true}
+        centeredSlides={true}
+        slidesPerView={3}
+        coverflowEffect={{
+          rotate: 30,
+          stretch: 0,
+          depth: 300,
+          modifier: 1,
+          slideShadows: true,
+        }}
+        modules={[EffectCoverflow]}
       >
-        {courts.map((court) => (
-          <CourtListItem key={court.court_id} court={court}></CourtListItem>
+        {courts.map((court, index) => (
+          <SwiperSlide key={court.court_id}>
+            <CourtListItem
+              key={index}
+              court={court}
+              isCurrentSlide={index === currentSlide}
+            ></CourtListItem>
+          </SwiperSlide>
         ))}
-      </VStack>
+      </Swiper>
     </Box>
   );
 };
+
 export default CourtList;

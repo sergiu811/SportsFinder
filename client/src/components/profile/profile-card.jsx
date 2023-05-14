@@ -95,28 +95,48 @@ const ProfileCard = () => {
 
         <Stack mt="6" spacing="3">
           <Center>
-            <Heading size="md">{user.username}</Heading>
+            <Heading fontSize={"30px"} color="rgba(240,240,240,0.9)" size="md">
+              {user.username}
+            </Heading>
           </Center>
           <Divider />
           <Center>
             <VStack spacing={4}>
-              <Grid templateColumns="1fr 9fr" gap={6}>
-                <Text>Rating:</Text>
+              <Grid
+                templateColumns="1fr 9fr"
+                justifyContent={"center"}
+                alignItems="center"
+                gap={6}
+              >
+                <Heading fontSize={"24px"} color="rgba(240,240,240,0.9)">
+                  Rating:
+                </Heading>
                 <ReactStars
+                  size={24}
                   edit={false}
                   fullIcon={<FaStar></FaStar>}
                   halfIcon={<FaStarHalf></FaStarHalf>}
                   emptyIcon={<FaRegStar></FaRegStar>}
                   value={user.rating}
                 ></ReactStars>
-                <Text>Age:</Text>
+                <Heading fontSize={"24px"} color="rgba(240,240,240,0.9)">
+                  Age:
+                </Heading>
                 <Input
+                  fontSize={"24px"}
+                  color="rgba(240,240,240,0.9)"
+                  fontWeight={"bold"}
                   type="number"
                   value={age ? age : ""}
                   onChange={handleAgeChange}
                 />
-                <Text>Height:</Text>
+                <Heading fontSize={"24px"} color="rgba(240,240,240,0.9)">
+                  Height:
+                </Heading>
                 <Input
+                  fontSize={"24px"}
+                  color="rgba(240,240,240,0.9)"
+                  fontWeight={"bold"}
                   min={0}
                   type="number"
                   value={height ? height : ""}
@@ -130,7 +150,13 @@ const ProfileCard = () => {
       <Divider />
       <Center>
         <CardFooter>
-          <Button variant="solid" onClick={handleUpdate}>
+          <Button
+            paddingLeft={"30px"}
+            paddingRight={"30px"}
+            fontSize={"24px"}
+            color="rgba(240,240,240,0.9)"
+            onClick={handleUpdate}
+          >
             Update
           </Button>
         </CardFooter>
