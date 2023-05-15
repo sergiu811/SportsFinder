@@ -81,11 +81,11 @@ const ProfileCard = () => {
 
   return user ? (
     <Card
-      width="40%"
+      width="100%"
       margin="auto"
       shadow={"dark-lg"}
       borderRadius={"10px"}
-      height="85vh"
+      height="82vh"
       bg={"rgba(25, 25, 25, 0.9)"}
     >
       <CardBody>

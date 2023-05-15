@@ -41,6 +41,27 @@ router.get("/lobby_players", async (req, res) => {
   }
 });
 
+router.get("/game_history/:player_id", async (req, res) => {
+  const { player_id } = req.params;
+  const query = `
+  SELECT l.* ,c.court_name,t.*
+  FROM lobby AS l
+  INNER JOIN player AS p ON p.playerid=l.player_id
+   INNER JOIN court AS c ON c.court_id=l.court_id
+    INNER JOIN time_interval AS t ON t.time_id=l.time_id
+  WHERE p.playerid=$1
+      `;
+  try {
+    const client = await pool.connect();
+    const result = await client.query(query, [player_id]);
+    res.json(result.rows);
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
 router.get("/player/:username", async (req, res) => {
   const { username } = req.params;
   const query = `
