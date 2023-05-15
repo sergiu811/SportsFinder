@@ -24,7 +24,6 @@ const LobbyHistory = () => {
       `http://localhost:5001/game_history/${decodedToken.id}`
     );
     const response = await data.json();
-    console.log(response);
     setGames(response);
   };
 
@@ -55,31 +54,35 @@ const LobbyHistory = () => {
         <GridItem height={"82vh"} borderRight="1px solid grey">
           <VStack>
             <Box textAlign="center" w={"100%"} p="5px">
-              <Heading fontSize={"20px"}>Games Played</Heading>
+              <Heading color="rgba(240,240,240,0.9)" fontSize={"25px"}>
+                Games Played
+              </Heading>
             </Box>
             <Divider></Divider>
-            {games.length > 0 ? (
-              games.map((game, index) => {
-                const isActive = game === activeGame;
-                return (
-                  <Box width={"100%"} p="5px" textAlign="center" key={index}>
-                    <Button
-                      onClick={() => changeGame(game)}
-                      width={"100%"}
-                      p="5px"
-                      size={"sm"}
-                      colorScheme={isActive ? "orange" : "gray"}
-                      variant={isActive ? "solid" : "outline"}
-                    >
-                      {game.court_name}
-                    </Button>
-                    <Divider></Divider>
-                  </Box>
-                );
-              })
-            ) : (
-              <></>
-            )}
+            <VStack w={"100%"} overflowY="scroll">
+              {games.length > 0 ? (
+                games.map((game, index) => {
+                  const isActive = game === activeGame;
+                  return (
+                    <Box width={"100%"} p="5px" textAlign="center" key={index}>
+                      <Button
+                        onClick={() => changeGame(game)}
+                        width={"100%"}
+                        p="5px"
+                        fontSize={"20px"}
+                        colorScheme={isActive ? "orange" : "gray"}
+                        variant={isActive ? "solid" : "outline"}
+                      >
+                        {game.court_name}
+                      </Button>
+                      <Divider></Divider>
+                    </Box>
+                  );
+                })
+              ) : (
+                <></>
+              )}
+            </VStack>
           </VStack>
         </GridItem>
         <GridItem>

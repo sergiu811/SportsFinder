@@ -9,14 +9,14 @@ import SocializeCompoenent from "../socialize/socializeComponent";
 import MapComponent from "../map/map";
 import CourtPage from "../court/court";
 import { AppProvider } from "../../context";
-import ProfileModal from "../profile/profile-modal";
 import ProfilePage from "../profile/profile-page";
+import CenteredSpinner from "../spinner";
 
 const Views = () => {
   const { user } = useContext(AccountContext);
 
   return user.loggedIn === null ? (
-    <h1>Loading...</h1>
+    <CenteredSpinner />
   ) : (
     <AppProvider>
       <Routes>

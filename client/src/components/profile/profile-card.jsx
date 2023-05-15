@@ -4,7 +4,6 @@ import {
   Card,
   Heading,
   Button,
-  Text,
   Divider,
   CardBody,
   Stack,
@@ -64,7 +63,6 @@ const ProfileCard = () => {
       );
 
       if (response.ok) {
-        // Update the user object with the new height and age values
         setUser((prevUser) => ({
           ...prevUser,
           height: height,
@@ -95,7 +93,7 @@ const ProfileCard = () => {
 
         <Stack mt="6" spacing="3">
           <Center>
-            <Heading fontSize={"30px"} color="rgba(240,240,240,0.9)" size="md">
+            <Heading color="rgba(240,240,240,0.9)" fontSize={"30px"} size="md">
               {user.username}
             </Heading>
           </Center>
@@ -108,7 +106,7 @@ const ProfileCard = () => {
                 alignItems="center"
                 gap={6}
               >
-                <Heading fontSize={"24px"} color="rgba(240,240,240,0.9)">
+                <Heading color="rgba(240,240,240,0.9)" fontSize={"24px"}>
                   Rating:
                 </Heading>
                 <ReactStars
@@ -119,7 +117,7 @@ const ProfileCard = () => {
                   emptyIcon={<FaRegStar></FaRegStar>}
                   value={user.rating}
                 ></ReactStars>
-                <Heading fontSize={"24px"} color="rgba(240,240,240,0.9)">
+                <Heading color="rgba(240,240,240,0.9)" fontSize={"24px"}>
                   Age:
                 </Heading>
                 <Input
@@ -130,7 +128,7 @@ const ProfileCard = () => {
                   value={age ? age : ""}
                   onChange={handleAgeChange}
                 />
-                <Heading fontSize={"24px"} color="rgba(240,240,240,0.9)">
+                <Heading color="rgba(240,240,240,0.9)" fontSize={"24px"}>
                   Height:
                 </Heading>
                 <Input
@@ -157,7 +155,7 @@ const ProfileCard = () => {
             color="rgba(240,240,240,0.9)"
             onClick={handleUpdate}
           >
-            Update
+            Update Information
           </Button>
         </CardFooter>
       </Center>

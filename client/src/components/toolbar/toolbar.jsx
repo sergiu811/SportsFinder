@@ -1,6 +1,7 @@
 import {
   AbsoluteCenter,
   Box,
+  Button,
   Grid,
   GridItem,
   HStack,
@@ -9,18 +10,22 @@ import {
 import classes from "./toolbar.module.css";
 import logoLight from "../../assets/logo-light.png";
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { CgProfile } from "react-icons/cg";
+import { FiLogOut } from "react-icons/fi";
 import { FaUserFriends } from "react-icons/fa";
-import { Button } from "bootstrap";
 
 const Toolbar = () => {
   const [user, setUser] = useState();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate.to("/login");
+  };
 
   const getUserDetails = async () => {
     const decodedToken = jwt_decode(localStorage.getItem("token"));
-
     const response = await fetch(
       `http://localhost:5001/player/${decodedToken.username}`
     );
@@ -84,6 +89,9 @@ const Toolbar = () => {
                     <HStack>
                       <CgProfile size={30}></CgProfile>
                     </HStack>
+                  </NavLink>
+                  <NavLink className={classes.default} onClick={handleLogout}>
+                    <FiLogOut size={30}></FiLogOut>
                   </NavLink>
                 </HStack>
               </AbsoluteCenter>

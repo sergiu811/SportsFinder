@@ -13,8 +13,12 @@ const GamePlayers = ({ players, selectedData }) => {
             display={"flex"}
             justifyContent="space-between"
           >
-            <Heading fontSize={"20px"}>Players in the lobby</Heading>
-            <Heading fontSize={"20px"}>Date: {selectedData}</Heading>
+            <Heading color="rgba(240,240,240,0.9)" fontSize={"25px"}>
+              Players in the lobby
+            </Heading>
+            <Heading color="rgba(240,240,240,0.9)" fontSize={"20px"}>
+              Date: {selectedData}
+            </Heading>
           </HStack>
         )}
         <Divider></Divider>

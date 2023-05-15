@@ -69,7 +69,14 @@ const LobbySelection = () => {
   }
   return (
     <VStack width="100%">
-      <Heading size={"sm"}>Select a date</Heading>
+      <Heading
+        marginTop={"5px"}
+        marginBottom="10px"
+        color="rgba(240,240,240,0.9)"
+        fontSize={"25px"}
+      >
+        Select a date
+      </Heading>
       <DatePicker
         defaultValue={dayjs(selectedDate, dateFormat)}
         size="large"

@@ -57,7 +57,9 @@ const RequestCard = ({ friendRequest }) => {
           >
             <Avatar name={friendRequest.username} src="" />
             <Box>
-              <Heading size="sm">{friendRequest.username}</Heading>
+              <Heading color="rgba(240,240,240,0.9)" size="sm">
+                {friendRequest.username}
+              </Heading>
             </Box>
           </Flex>
         </Flex>

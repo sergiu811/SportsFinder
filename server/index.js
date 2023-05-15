@@ -51,7 +51,6 @@ socket.on("connection", (socket) => {
   });
 
   socket.on("joinLobby", (selectedDate, selectedTime, id, cb) => {
-    //socket.to("a187d95d-1223-4a18-87ae-abd644a03035").emit("joined");
     joinLobby(socket, selectedDate, selectedTime, id, cb);
   });
 

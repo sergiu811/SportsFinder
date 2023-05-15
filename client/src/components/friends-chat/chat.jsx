@@ -57,7 +57,7 @@ const Chat = ({ userid }) => {
       <TabPanels>
         <TabPanel>
           <Box borderRadius="10px" boxShadow="1px 3px 7px 1px" p="20px">
-            <Heading size="sm" align="center">
+            <Heading color="rgba(240,240,240,0.9)" size="sm" align="center">
               No friends :(
             </Heading>
           </Box>

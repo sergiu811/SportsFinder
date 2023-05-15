@@ -48,7 +48,7 @@ const CourtPage = () => {
   }, []);
 
   if (!court) {
-    return <div>Loading...</div>;
+    return <CenteredSpinner></CenteredSpinner>;
   }
   return (
     <Grid as={Tabs} templateColumns={"0.6fr 9fr"} w="100%">

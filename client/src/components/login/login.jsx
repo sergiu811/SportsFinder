@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import { AccountContext } from "../account-context";
 import { useContext, useState } from "react";
 import logo from "../../assets/logo-light.png";
+import { Box, Heading, Text } from "@chakra-ui/react";
 
 const validationSchema = Yup.object({
   username: Yup.string()
@@ -25,11 +26,11 @@ const Login = () => {
   const { setUser } = useContext(AccountContext);
   const [error, setError] = useState(null);
   return (
-    <div className={Classes.background}>
-      <div className={Classes.stack}>
+    <Box className={Classes.background}>
+      <Box className={Classes.stack}>
         <img className={Classes.logo} src={logo}></img>
-        <h1 className={Classes.title}>Login</h1>
-        <p className={Classes.backendError}>{error}</p>
+        <Heading className={Classes.title}>Login</Heading>
+        <Text className={Classes.backendError}>{error}</Text>
         <Formik
           initialValues={{ username: "", password: "" }}
           validationSchema={validationSchema}
@@ -164,8 +165,8 @@ const Login = () => {
             </Form>
           )}
         </Formik>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 export default Login;

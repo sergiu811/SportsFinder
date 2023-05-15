@@ -1,6 +1,5 @@
 import {
   Modal,
-  ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
@@ -29,31 +28,29 @@ const ProfileModal = ({ isOpen, onClose, player }) => {
     })
       .then((response) => {
         if (response.ok) {
-          console.log(response.json());
           console.log("Player rating updated successfully");
-          // Perform any other necessary actions after successful update
         } else {
           console.error("Error updating player rating:", response.status);
-          // Handle any errors that occur during the request
         }
       })
       .catch((error) => {
         console.error("Error updating player rating:", error);
-        // Handle any other errors that occur during the request
       });
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent pb={"20px"}>
+      <ModalContent backgroundColor={"rgba(25,25,25,0.9)"} pb={"20px"}>
         <ModalCloseButton />
 
         <VStack mt={"20px"} width={"80%"} margin={"auto"}>
           <Avatar mt={"20px"} name={player.username}></Avatar>
           <Heading>{player.username}</Heading>
           <HStack>
-            <Heading size={"sm"}>Rate Player</Heading>
+            <Heading color="rgba(240,240,240,0.9)" fontSize={"25px"}>
+              Rate Player
+            </Heading>
             <ReactStars
               edit={true}
               fullIcon={<FaStar></FaStar>}
@@ -63,12 +60,20 @@ const ProfileModal = ({ isOpen, onClose, player }) => {
             ></ReactStars>
           </HStack>
           <HStack>
-            <Heading size={"sm"}>Player Height</Heading>
-            <Text>{player.height}</Text>
+            <Heading color="rgba(240,240,240,0.9)" fontSize={"25px"}>
+              Player Height:
+            </Heading>
+            <Heading color="rgba(240,240,240,0.9)" fontSize={"25px"}>
+              {player.height ? player.height : "-"} cm
+            </Heading>
           </HStack>
           <HStack>
-            <Heading size={"sm"}>Player Age</Heading>
-            <Text>{player.age}</Text>
+            <Heading color="rgba(240,240,240,0.9)" fontSize={"25px"}>
+              Player Age:
+            </Heading>
+            <Heading color="rgba(240,240,240,0.9)" fontSize={"25px"}>
+              {player.age ? player.age : "-"}
+            </Heading>
           </HStack>
         </VStack>
         <ModalFooter>

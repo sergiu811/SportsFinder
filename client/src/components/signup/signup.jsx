@@ -8,6 +8,7 @@ import { AccountContext } from "../account-context";
 import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import logo from "../../assets/logo-light.png";
+import { Box, Heading, Text } from "@chakra-ui/react";
 const validationSchema = Yup.object({
   username: Yup.string()
     .required("Username required")
@@ -24,11 +25,11 @@ const SignUp = () => {
   const { setUser } = useContext(AccountContext);
   const [error, setError] = useState(null);
   return (
-    <div className={Classes.background}>
-      <div className={Classes.stack}>
+    <Box className={Classes.background}>
+      <Box className={Classes.stack}>
         <img className={Classes.logo} src={logo}></img>
-        <h1 className={Classes.title}>Sign Up</h1>
-        <p className={Classes.backendError}>{error}</p>
+        <Heading className={Classes.title}>Sign Up</Heading>
+        <Text className={Classes.backendError}>{error}</Text>
         <Formik
           initialValues={{ username: "", password: "" }}
           validationSchema={validationSchema}
@@ -164,8 +165,8 @@ const SignUp = () => {
             </Form>
           )}
         </Formik>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 export default SignUp;

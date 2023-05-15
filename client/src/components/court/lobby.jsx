@@ -130,13 +130,21 @@ const Lobby = () => {
       <VStack alignItems={"flex-start"} width="95%" margin="auto">
         <HStack justifyContent={"space-between"} width="100%">
           <HStack>
-            <Heading size={"md"}>Lobby Occupancy</Heading>
+            <Heading fontSize={"25px"} color="rgba(240,240,240,0.9)">
+              Lobby Occupancy
+            </Heading>
             <Progress
               strokeColor={getColor()}
-              style={{ width: "200px" }}
+              style={{ width: "250px", marginLeft: "10px" }}
               percent={capacity * 10}
               format={(percent) => (
-                <span style={{ color: "white" }}>{`${percent}%`}</span>
+                <span
+                  style={{
+                    color: "white",
+                    fontSize: "25px",
+                    fontWeight: "bold",
+                  }}
+                >{`${percent}%`}</span>
               )}
             ></Progress>
           </HStack>

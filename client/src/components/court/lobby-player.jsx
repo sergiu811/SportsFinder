@@ -59,8 +59,10 @@ const LobbyPlayer = ({ player }) => {
         justifyContent={"space-between"}
       >
         <HStack>
-          <Avatar size={"sm"} name={player.username}></Avatar>
-          <Heading size="sm">{player.username} </Heading>
+          <Avatar fontSize={"25px"} name={player.username}></Avatar>
+          <Heading color="rgba(240,240,240,0.9)" size="sm">
+            {player.username}{" "}
+          </Heading>
           <ReactStars
             edit={false}
             fullIcon={<FaStar></FaStar>}

@@ -9,7 +9,7 @@ const FriendRequests = () => {
     <Box w="100%" margin="auto" maxHeight="81vh" height={"82vh"}>
       <Box position={"relative"} p="10px">
         <AbsoluteCenter>
-          <Heading fontSize={"24px"} color="rgba(240,240,240,0.9)">
+          <Heading color="rgba(240,240,240,0.9)" fontSize={"24px"}>
             Friend requests
           </Heading>
         </AbsoluteCenter>

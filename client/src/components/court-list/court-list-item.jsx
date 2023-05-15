@@ -24,7 +24,7 @@ const CourtListItem = ({ court }) => {
     >
       <VStack>
         <Image maxW={{ sm: "32vw" }} src={court.image} alt="Court image" />
-        <Heading padding="10px" size="lg">
+        <Heading color="rgba(240,240,240,0.9)" padding="10px" size="lg">
           {court.court_name}
         </Heading>
         <Button
