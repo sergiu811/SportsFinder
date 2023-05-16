@@ -38,7 +38,7 @@ const AddFriendModal = ({ isOpen, onClose }) => {
       onClose={closeModal}
     >
       <ModalOverlay />
-      <ModalContent backgroundColor={"rgba(25, 25, 25, 1)"}>
+      <ModalContent backgroundColor={"rgba(35,35,35,1)"}>
         <ModalHeader fontSize={"24px"} color="rgba(240,240,240,0.9)">
           Add a friend!
         </ModalHeader>

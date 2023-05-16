@@ -16,7 +16,7 @@ import ProfileModal from "../profile/profile-modal";
 
 const LobbyPlayer = ({ player }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user } = useGlobalContext();
+  const { user, setMessage, setError } = useGlobalContext();
   const [currentUser, setCurrentUser] = useState();
   useEffect(() => {
     setCurrentUser(jwt_decode(user.token));
@@ -35,9 +35,9 @@ const LobbyPlayer = ({ player }) => {
   const handleAddFriend = (username) => {
     socket.emit("add_friend", username, ({ errorMsg, done }) => {
       if (done) {
-        console.log("added");
+        setMessage("Friend request sent");
       }
-      console.log(errorMsg);
+      setError(errorMsg);
     });
   };
 

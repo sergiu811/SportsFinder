@@ -6,26 +6,33 @@ import {
   HStack,
   VStack,
 } from "@chakra-ui/react";
-import { Divider, Empty, Progress } from "antd";
+import { Divider, Empty, message, Progress } from "antd";
 import LobbyPlayer from "./lobby-player";
 import { useParams } from "react-router-dom";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { useGlobalContext } from "../../context";
 import { useEffect, useState } from "react";
-
 const Lobby = () => {
-  const { socket, selectedDate, selectedTime, players, setPlayers } =
-    useGlobalContext();
+  const {
+    socket,
+    selectedDate,
+    selectedTime,
+    players,
+    setPlayers,
+    setMessage,
+    setError,
+  } = useGlobalContext();
+
+  const getKey = () => {
+    return `court:${id},time:${selectedTime},date:${selectedDate
+      .toString()
+      .slice(0, 10)},`;
+  };
+
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [capacity, setCapacity] = useState(0);
   const [lobbyPlayers, setLobbyPLayers] = useState([]);
-  const [key, setKey] = useState(
-    `court:${id},time:${selectedTime},date:${selectedDate
-      .toString()
-      .slice(0, 10)},`
-  );
+  const [key, setKey] = useState(getKey());
 
   const getColor = () => {
     if (capacity * 10 < 50) {
@@ -35,6 +42,13 @@ const Lobby = () => {
     } else {
       return "green";
     }
+  };
+
+  const handleLobbyAction = (key, lobbyPlayers, message, map) => {
+    setCapacity(lobbyPlayers.length);
+    map.set(key, lobbyPlayers);
+    setMessage(message);
+    setPlayers(map);
   };
 
   const handleJoin = () => {
@@ -57,13 +71,9 @@ const Lobby = () => {
           } else {
             lobbyPlayers.push(player);
           }
-
-          setCapacity(lobbyPlayers.length);
-
-          map.set(key, lobbyPlayers);
-          setPlayers(map);
+          handleLobbyAction(key, lobbyPlayers, "Joined lobby", map);
         } else {
-          console.log(msg);
+          setError(msg);
         }
       }
     );
@@ -83,22 +93,16 @@ const Lobby = () => {
             (el) => el.username !== removedPlayer
           );
           map.delete(key);
-
-          map.set(key, newLobbyPlayers);
-          setCapacity(newLobbyPlayers.length);
-          setPlayers(map);
+          handleLobbyAction(key, newLobbyPlayers, "Left lobby", map);
         } else {
-          console.log(msg);
+          setError(msg);
         }
       }
     );
   };
 
   useEffect(() => {
-    const key = `court:${id},time:${selectedTime},date:${selectedDate
-      .toString()
-      .slice(0, 10)},`;
-
+    const key = getKey();
     if (players.has(key)) {
       const lobbyplayers = players.get(key);
       setCapacity(lobbyplayers.length);
@@ -106,18 +110,13 @@ const Lobby = () => {
   }, [id, players, selectedDate, selectedTime]);
 
   useEffect(() => {
-    const key = `court:${id},time:${selectedTime},date:${selectedDate
-      .toString()
-      .slice(0, 10)},`;
-
+    const key = getKey();
     setKey(key);
     setLobbyPLayers(players.get(key));
   }, [players, selectedDate, selectedTime, id]);
 
   useEffect(() => {
-    const key = `court:${id},time:${selectedTime},date:${selectedDate
-      .toString()
-      .slice(0, 10)},`;
+    const key = getKey();
     if (players.size > 0 && players.has(key)) {
       setCapacity(players.get(key).length);
     } else {

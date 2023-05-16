@@ -3,21 +3,14 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
 } from "@chakra-ui/modal";
-import {
-  ModalOverlay,
-  Text,
-  Heading,
-  VStack,
-  HStack,
-  Avatar,
-  Button,
-} from "@chakra-ui/react";
+import { Heading, VStack, HStack, Avatar, Button } from "@chakra-ui/react";
 import ReactStars from "react-rating-stars-component";
 import { FaStar, FaRegStar, FaStarHalf } from "react-icons/fa";
+import { useGlobalContext } from "../../context";
 
 const ProfileModal = ({ isOpen, onClose, player }) => {
+  const { setError, setMessage, setPlacement } = useGlobalContext();
   const giveRating = (value) => {
     fetch(`http://localhost:5001/player/rating/${player.username}`, {
       method: "POST",
@@ -28,22 +21,20 @@ const ProfileModal = ({ isOpen, onClose, player }) => {
     })
       .then((response) => {
         if (response.ok) {
-          console.log("Player rating updated successfully");
+          setMessage("Player rating updated successfully");
         } else {
-          console.error("Error updating player rating:", response.status);
+          setError(`Error updating player rating: ${response.status}`);
         }
       })
       .catch((error) => {
-        console.error("Error updating player rating:", error);
+        setError(`Error updating player rating: ${error}`);
       });
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent backgroundColor={"rgba(25,25,25,0.9)"} pb={"20px"}>
+    <Modal isCentered isOpen={isOpen} onClose={onClose}>
+      <ModalContent backgroundColor={"rgba(35,35,35,1)"} pb={"20px"}>
         <ModalCloseButton />
-
         <VStack mt={"20px"} width={"80%"} margin={"auto"}>
           <Avatar mt={"20px"} name={player.username}></Avatar>
           <Heading>{player.username}</Heading>

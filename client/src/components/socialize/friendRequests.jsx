@@ -1,4 +1,11 @@
-import { AbsoluteCenter, Box, Divider, Heading, Wrap } from "@chakra-ui/react";
+import {
+  AbsoluteCenter,
+  Box,
+  Divider,
+  Heading,
+  VStack,
+  Wrap,
+} from "@chakra-ui/react";
 import RequestCard from "./requestCard";
 import { Empty } from "antd";
 import { useGlobalContext } from "../../context";
@@ -17,7 +24,15 @@ const FriendRequests = () => {
 
       <Divider mb="5" mt="5"></Divider>
       {friendRequestList.length > 0 ? (
-        <Wrap spacing="10" overflowY="scroll" pb="10px" p="10px" maxH="80vh">
+        <VStack
+          width={"100%"}
+          spacing="10"
+          overflowY="scroll"
+          pb="10px"
+          p="10px"
+          maxH="80vh"
+          h="75vh"
+        >
           {friendRequestList.map((friendRequest) => {
             return (
               <RequestCard
@@ -26,7 +41,7 @@ const FriendRequests = () => {
               ></RequestCard>
             );
           })}
-        </Wrap>
+        </VStack>
       ) : (
         <Box position={"relative"}>
           <Empty

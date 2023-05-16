@@ -1,4 +1,4 @@
-import { AbsoluteCenter, Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import LobbyHistory from "../court/lobby-history";
 import ProfileCard from "./profile-card";
 
@@ -13,7 +13,6 @@ const ProfilePage = () => {
     >
       <GridItem
         color={"white"}
-        bg={"rgba(25, 25, 25, 0.9)"}
         borderRadius="10px"
         m="10px"
         mt="1vh"

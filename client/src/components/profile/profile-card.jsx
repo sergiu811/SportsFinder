@@ -16,22 +16,30 @@ import {
 import jwt_decode from "jwt-decode";
 import ReactStars from "react-rating-stars-component";
 import { FaStar, FaRegStar, FaStarHalf } from "react-icons/fa";
+import { useGlobalContext } from "../../context";
 
 const ProfileCard = () => {
   const [user, setUser] = useState();
   const [height, setHeight] = useState();
   const [age, setAge] = useState();
+  const { setMessage, setError } = useGlobalContext();
 
   const getUserDetails = async () => {
     const decodedToken = jwt_decode(localStorage.getItem("token"));
 
-    const response = await fetch(
-      `http://localhost:5001/player/${decodedToken.username}`
-    );
-    const data = await response.json();
-    setUser(data[0]);
-    setHeight(data[0].height);
-    setAge(data[0].age);
+    try {
+      const response = await fetch(
+        `http://localhost:5001/player/${decodedToken.username}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data[0]);
+        setHeight(data[0].height);
+        setAge(data[0].age);
+      }
+    } catch (error) {
+      setError("Failed to load profile");
+    }
   };
 
   useEffect(() => {
@@ -48,32 +56,39 @@ const ProfileCard = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5001/player/${user.username}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            height: height ? height : null,
-            age: age ? age : null,
-          }),
+      if (height !== user.height || age !== user.age) {
+        if ((height && height <= 0) || (age && age <= 0)) {
+          setError("Height and age must be greater than 0.");
+          setHeight(user.height);
+          setAge(user.age);
+          return;
         }
-      );
 
-      if (response.ok) {
-        setUser((prevUser) => ({
-          ...prevUser,
-          height: height,
-          age: age,
-        }));
-        console.log("User details updated successfully!");
+        const response = await fetch(
+          `http://localhost:5001/player/${user.username}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              height: height ? height : null,
+              age: age ? age : null,
+            }),
+          }
+        );
+
+        if (response.ok) {
+          setMessage("User details updated successfully!");
+          setUser({ ...user, age: age, height: height });
+        } else {
+          setError("Failed to update user details");
+        }
       } else {
-        console.log("Failed to update user details");
+        setError("User details did not change!");
       }
     } catch (error) {
-      console.error("Error updating user details:", error);
+      setError("Error updating user details.");
     }
   };
 

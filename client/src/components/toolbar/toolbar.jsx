@@ -78,7 +78,7 @@ const Toolbar = () => {
                       isActive ? classes.active : classes.default
                     }
                   >
-                    <FaUserFriends />
+                    <FaUserFriends size={30} />
                   </NavLink>
                   <NavLink
                     to="/profile"

@@ -4,6 +4,7 @@ import socketConn from "./socket";
 import React from "react";
 import { AccountContext } from "./components/account-context";
 import moment from "moment";
+import { notification } from "antd";
 
 const AppContext = React.createContext();
 
@@ -15,13 +16,64 @@ const AppProvider = ({ children }) => {
   const [socket, setSocket] = useState(() => socketConn(user));
   const [selectedTime, setSelectedTime] = useState(1);
   const [players, setPlayers] = useState(new Map());
-  const default_date = moment().format("YYYY-MM-DD");
+  const [message, setDisplayMessage] = useState();
+  const [error, setErrorMessage] = useState();
+  const [trigger, setTrigger] = useState(0);
+  const [placement, setPlacement] = useState("top");
 
-  const [selectedDate, setSelectedDate] = useState(default_date);
+  const [selectedDate, setSelectedDate] = useState(
+    moment().format("YYYY-MM-DD")
+  );
 
   useEffect(() => {
     setSocket(() => socketConn(user));
   }, [user]);
+
+  const openNotification = (message, type) => {
+    const notificationKey = Date.now();
+    notification[type]({
+      message: (
+        <div
+          style={{
+            color: "white",
+            fontSize: "20px",
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          {message}
+        </div>
+      ),
+      zIndex: 9999,
+      key: notificationKey,
+      placement,
+      style: {
+        backgroundColor: "rgba(65,65,65,0.9)",
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (message) {
+      openNotification(message, "success");
+    }
+  }, [message, trigger]);
+
+  useEffect(() => {
+    if (error) {
+      openNotification(error, "error");
+    }
+  }, [error, trigger]);
+
+  const setError = (errorMessage) => {
+    setErrorMessage(errorMessage);
+    setTrigger((prevTrigger) => prevTrigger + 1);
+  };
+
+  const setMessage = (message) => {
+    setDisplayMessage(message);
+    setTrigger((prevTrigger) => prevTrigger + 1);
+  };
 
   useSocketSetup(
     setFriendList,
@@ -52,6 +104,9 @@ const AppProvider = ({ children }) => {
         selectedDate,
         players,
         setPlayers,
+        setMessage,
+        setError,
+        setPlacement,
       }}
     >
       {children}

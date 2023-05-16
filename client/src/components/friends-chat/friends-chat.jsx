@@ -37,7 +37,7 @@ const FriendsChat = () => {
               <Avatar name={friend.username}>
                 <AvatarBadge
                   boxSize="1.25em"
-                  bg={friend.connected ? "green.400" : "red.500"}
+                  bg={friend.connected === "true" ? "green.400" : "red.500"}
                 />
               </Avatar>
             </GridItem>

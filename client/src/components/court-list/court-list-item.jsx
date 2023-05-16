@@ -1,12 +1,4 @@
-import {
-  Image,
-  Heading,
-  Button,
-  HStack,
-  Divider,
-  VStack,
-  Box,
-} from "@chakra-ui/react";
+import { Image, Heading, Button, VStack, Box } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
 

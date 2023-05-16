@@ -49,7 +49,7 @@ router.get("/game_history/:player_id", async (req, res) => {
   INNER JOIN player AS p ON p.playerid=l.player_id
    INNER JOIN court AS c ON c.court_id=l.court_id
     INNER JOIN time_interval AS t ON t.time_id=l.time_id
-  WHERE p.playerid=$1
+  WHERE p.playerid=$1 AND DATE(l.date) < CURRENT_DATE
       `;
   try {
     const client = await pool.connect();

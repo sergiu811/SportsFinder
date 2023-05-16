@@ -12,3 +12,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.ant-notification {
+  color: white !important;
+}
+
+.ant-notification {
+  color: white;
+}

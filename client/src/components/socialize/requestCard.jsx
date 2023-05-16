@@ -7,6 +7,9 @@ import {
   Heading,
   Box,
   Avatar,
+  HStack,
+  ButtonGroup,
+  Divider,
 } from "@chakra-ui/react";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { useGlobalContext } from "../../context";
@@ -45,53 +48,37 @@ const RequestCard = ({ friendRequest }) => {
     );
   };
   return (
-    <Card maxW="md" boxShadow="1px 3px 7px 1px">
-      <CardHeader>
-        <Flex>
-          <Flex
+    <Box width={"100%"}>
+      <HStack p="15px" display={"flex"} justifyContent={"space-between"}>
+        <Box display={"flex"} justifyContent="center" alignItems={"center"}>
+          <Avatar name={friendRequest.username} src="" />
+          <Heading ml="10px" color="rgba(240,240,240,0.9)" size="sm">
+            {friendRequest.username}
+          </Heading>
+        </Box>
+        <ButtonGroup>
+          <Button
             flex="1"
-            gap="8"
-            alignItems="center"
-            justify="center"
-            flexWrap="wrap"
+            variant="ghost"
+            color={"green.400"}
+            onClick={handleAccept}
+            leftIcon={<CheckIcon />}
           >
-            <Avatar name={friendRequest.username} src="" />
-            <Box>
-              <Heading color="rgba(240,240,240,0.9)" size="sm">
-                {friendRequest.username}
-              </Heading>
-            </Box>
-          </Flex>
-        </Flex>
-      </CardHeader>
-
-      <CardFooter
-        justify="space-between"
-        flexWrap="wrap"
-        sx={{
-          "& > button": {
-            minW: "136px",
-          },
-        }}
-      >
-        <Button
-          flex="1"
-          variant="ghost"
-          onClick={handleAccept}
-          leftIcon={<CheckIcon />}
-        >
-          Accept
-        </Button>
-        <Button
-          flex="1"
-          variant="ghost"
-          onClick={handleDecline}
-          leftIcon={<CloseIcon />}
-        >
-          Decline
-        </Button>
-      </CardFooter>
-    </Card>
+            Accept
+          </Button>
+          <Button
+            flex="1"
+            color={"red.400"}
+            variant="ghost"
+            onClick={handleDecline}
+            leftIcon={<CloseIcon />}
+          >
+            Decline
+          </Button>
+        </ButtonGroup>
+      </HStack>
+      <Divider></Divider>
+    </Box>
   );
 };
 export default RequestCard;
