@@ -51,6 +51,61 @@ SET row_security = off;
 
 -- DROP TABLE IF EXISTS public.court;
 
+CREATE SEQUENCE IF NOT EXISTS public.basketball_courts_court_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1
+    OWNED BY court.court_id;
+
+ALTER SEQUENCE public.basketball_courts_court_id_seq
+    OWNER TO postgres;
+
+
+    -- SEQUENCE: public.lobby_lobby_id_seq
+
+-- DROP SEQUENCE IF EXISTS public.lobby_lobby_id_seq;
+
+CREATE SEQUENCE IF NOT EXISTS public.lobby_lobby_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;
+
+ALTER SEQUENCE public.lobby_lobby_id_seq
+    OWNER TO postgres;
+
+    -- SEQUENCE: public.player_playerid_seq
+
+-- DROP SEQUENCE IF EXISTS public.player_playerid_seq;
+
+CREATE SEQUENCE IF NOT EXISTS public.player_playerid_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;
+
+ALTER SEQUENCE public.player_playerid_seq
+    OWNER TO postgres;
+
+
+    -- SEQUENCE: public.time_interval_time_id_seq
+
+-- DROP SEQUENCE IF EXISTS public.time_interval_time_id_seq;
+
+CREATE SEQUENCE IF NOT EXISTS public.time_interval_time_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;
+
+ALTER SEQUENCE public.time_interval_time_id_seq
+    OWNER TO postgres;
+
 CREATE TABLE IF NOT EXISTS public.court
 (
     court_id integer NOT NULL DEFAULT nextval('basketball_courts_court_id_seq'::regclass),
