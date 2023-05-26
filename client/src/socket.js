@@ -1,7 +1,8 @@
 import { io } from "socket.io-client";
+import { HOST } from "./constants";
 
 const socket = (user) =>
-  io("http://164.90.164.219:5001", {
+  io(`http://${HOST}`, {
     transports: ["websocket"],
     autoConnect: false,
     withCredentials: true,
