@@ -1,4 +1,5 @@
 const session = require("express-session");
+const HOST = require("../consts");
 require("dotenv").config();
 
 const corsConfig = {
