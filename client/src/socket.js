@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 import { HOST } from "./constants";
 
 const socket = (user) =>
-  io(`http://${HOST}`, {
+  io(`http://${HOST}:5001`, {
     transports: ["websocket"],
     autoConnect: false,
     withCredentials: true,
