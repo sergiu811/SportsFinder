@@ -47,6 +47,95 @@ SET row_security = off;
 -- Data for Name: court; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+-- Table: public.court
+
+-- DROP TABLE IF EXISTS public.court;
+
+CREATE TABLE IF NOT EXISTS public.court
+(
+    court_id integer NOT NULL DEFAULT nextval('basketball_courts_court_id_seq'::regclass),
+    court_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    court_longitude numeric NOT NULL,
+    court_latitude numeric NOT NULL,
+    image character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT basketball_courts_pkey PRIMARY KEY (court_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.court
+    OWNER to postgres;
+
+    -- Table: public.lobby
+
+-- DROP TABLE IF EXISTS public.lobby;
+
+CREATE TABLE IF NOT EXISTS public.lobby
+(
+    lobby_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    court_id integer NOT NULL,
+    time_id integer NOT NULL,
+    player_id integer NOT NULL,
+    date character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT lobby_pkey PRIMARY KEY (lobby_id),
+    CONSTRAINT lobby_court FOREIGN KEY (court_id)
+        REFERENCES public.court (court_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT lobby_player FOREIGN KEY (player_id)
+        REFERENCES public.player (playerid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT lobby_time FOREIGN KEY (time_id)
+        REFERENCES public.time_interval (time_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.lobby
+    OWNER to postgres;
+
+    -- Table: public.player
+
+-- DROP TABLE IF EXISTS public.player;
+
+CREATE TABLE IF NOT EXISTS public.player
+(
+    playerid integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    username character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    passwordhash character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    rating double precision,
+    userid character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    height integer,
+    age integer,
+    CONSTRAINT player_pkey PRIMARY KEY (playerid)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.player
+    OWNER to postgres;
+
+    -- Table: public.time_interval
+
+-- DROP TABLE IF EXISTS public.time_interval;
+
+CREATE TABLE IF NOT EXISTS public.time_interval
+(
+    time_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    time_interval character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT time_interval_pkey PRIMARY KEY (time_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.time_interval
+    OWNER to postgres;
+
 INSERT INTO public.court (court_id, court_name, court_longitude, court_latitude, image) VALUES (1, 'Livada
 ', 25.58550284700226, 45.646770238651406, 'https://res.cloudinary.com/davrg4fxd/image/upload/v1682857499/sublivada_wit1na.jpg');
 INSERT INTO public.court (court_id, court_name, court_longitude, court_latitude, image) VALUES (2, 'Sub Tampa', 25.59484653437567, 45.64041359556766, 'https://res.cloudinary.com/davrg4fxd/image/upload/v1682856363/sub_tampa_pgvaso.jpg');
