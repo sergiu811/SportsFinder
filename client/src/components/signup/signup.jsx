@@ -9,6 +9,8 @@ import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import logo from "../../assets/logo-light.png";
 import { Box, Heading, Text } from "@chakra-ui/react";
+import { HOST } from "../../constants";
+
 const validationSchema = Yup.object({
   username: Yup.string()
     .required("Username required")
@@ -35,7 +37,7 @@ const SignUp = () => {
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
             const vals = { ...values };
-            fetch("http://localhost:5001/auth/signup", {
+            fetch(`http://${HOST}:5001/auth/signup`, {
               method: "POST",
               credentials: "include",
               headers: { "Content-Type": "application/json" },

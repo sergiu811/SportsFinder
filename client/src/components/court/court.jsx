@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 
 import { FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
-import { HiChatBubbleLeftRight } from "react-icons/hi2";
+import { HOST } from "../../constants";
 import MapComponent from "../map/map";
 import LobbyComponent from "./lobby-component";
 import CenteredSpinner from "../spinner";
@@ -27,7 +27,7 @@ const CourtPage = () => {
   useEffect(() => {
     async function fetchCourt() {
       const response = await fetch(
-        `http://localhost:5001/basketball_courts/${id}`
+        `http://${HOST}:5001/basketball_courts/${id}`
       );
       const data = await response.json();
       setCourt(data);

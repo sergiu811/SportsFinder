@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useGlobalContext } from "../../context";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-
+import { HOST } from "../../constants";
 dayjs.extend(customParseFormat);
 
 const dateFormat = "YYYY-MM-DD";
@@ -38,7 +38,7 @@ const LobbySelection = () => {
       setIsLoading(true);
 
       try {
-        const response = await fetch("http://localhost:5001/time_intervals");
+        const response = await fetch(`http://${HOST}:5001/time_intervals`);
         const data = await response.json();
         const options = data.map((option) => {
           return {

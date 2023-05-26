@@ -2,7 +2,7 @@ const session = require("express-session");
 require("dotenv").config();
 
 const corsConfig = {
-  origin: "http://localhost:3000",
+  origin: `http://${HOST}`,
   credentials: true,
 };
 module.exports = { corsConfig };

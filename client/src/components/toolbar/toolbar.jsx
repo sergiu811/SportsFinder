@@ -15,6 +15,7 @@ import jwt_decode from "jwt-decode";
 import { CgProfile } from "react-icons/cg";
 import { FiLogOut } from "react-icons/fi";
 import { FaUserFriends } from "react-icons/fa";
+import { HOST } from "../../constants";
 
 const Toolbar = () => {
   const [user, setUser] = useState();
@@ -27,7 +28,7 @@ const Toolbar = () => {
   const getUserDetails = async () => {
     const decodedToken = jwt_decode(localStorage.getItem("token"));
     const response = await fetch(
-      `http://localhost:5001/player/${decodedToken.username}`
+      `http://${HOST}:5001/player/${decodedToken.username}`
     );
 
     const data = await response.json();

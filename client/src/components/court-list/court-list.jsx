@@ -1,13 +1,13 @@
-import { VStack, Box, Heading, Divider } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import CourtListItem from "./court-list-item";
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Pagination, Virtual } from "swiper";
+import { EffectCoverflow } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-
+import { HOST } from "../../constants";
 const CourtList = () => {
   const [courts, setCourts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +23,7 @@ const CourtList = () => {
       setIsLoading(true);
 
       try {
-        const response = await fetch("http://localhost:5001/basketball_courts");
+        const response = await fetch(`http://${HOST}:5001/basketball_courts`);
         const data = await response.json();
         setCourts(data);
       } catch (error) {

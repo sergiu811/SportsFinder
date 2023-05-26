@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import GamePlayers from "./game-players";
 import { useGlobalContext } from "../../context";
+import { HOST } from "../../constants";
 
 const LobbyHistory = () => {
   const { setError } = useGlobalContext();
@@ -25,7 +26,7 @@ const LobbyHistory = () => {
 
     try {
       const data = await fetch(
-        `http://localhost:5001/game_history/${decodedToken.id}`
+        `http://${HOST}:5001/game_history/${decodedToken.id}`
       );
       const response = await data.json();
       setGames(response);
@@ -37,7 +38,7 @@ const LobbyHistory = () => {
   const changeGame = async (game) => {
     try {
       const data = await fetch(
-        `http://localhost:5001/lobby_players?court_id=${game.court_id}&selectedTime=${game.time_id}&selectedDate=${game.date}`
+        `http://${HOST}:5001/lobby_players?court_id=${game.court_id}&selectedTime=${game.time_id}&selectedDate=${game.date}`
       );
       const response = await data.json();
       setPlayers(response);

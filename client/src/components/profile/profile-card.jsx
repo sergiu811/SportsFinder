@@ -17,6 +17,7 @@ import jwt_decode from "jwt-decode";
 import ReactStars from "react-rating-stars-component";
 import { FaStar, FaRegStar, FaStarHalf } from "react-icons/fa";
 import { useGlobalContext } from "../../context";
+import { HOST } from "../../constants";
 
 const ProfileCard = () => {
   const [user, setUser] = useState();
@@ -29,7 +30,7 @@ const ProfileCard = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5001/player/${decodedToken.username}`
+        `http://${HOST}:5001/player/${decodedToken.username}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -65,7 +66,7 @@ const ProfileCard = () => {
         }
 
         const response = await fetch(
-          `http://localhost:5001/player/${user.username}`,
+          `http://${HOST}:5001/player/${user.username}`,
           {
             method: "PUT",
             headers: {

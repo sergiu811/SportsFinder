@@ -15,7 +15,6 @@ const jwtVerify = (token, secret) =>
   new Promise((resolve, reject) => {
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
-        console.log("Bad request");
         reject(err);
       }
       resolve(decoded);

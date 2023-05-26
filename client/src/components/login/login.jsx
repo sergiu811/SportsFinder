@@ -9,6 +9,7 @@ import { AccountContext } from "../account-context";
 import { useContext, useState } from "react";
 import logo from "../../assets/logo-light.png";
 import { Box, Heading, Text } from "@chakra-ui/react";
+import { HOST } from "../../constants";
 
 const validationSchema = Yup.object({
   username: Yup.string()
@@ -36,7 +37,7 @@ const Login = () => {
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
             const vals = { ...values };
-            fetch("http://localhost:5001/auth/login", {
+            fetch(`http://${HOST}:5001/auth/login`, {
               method: "POST",
               credentials: "include",
               headers: { "Content-Type": "application/json" },

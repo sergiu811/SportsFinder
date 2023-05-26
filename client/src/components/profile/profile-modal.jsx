@@ -12,7 +12,7 @@ import { useGlobalContext } from "../../context";
 const ProfileModal = ({ isOpen, onClose, player }) => {
   const { setError, setMessage, setPlacement } = useGlobalContext();
   const giveRating = (value) => {
-    fetch(`http://localhost:5001/player/rating/${player.username}`, {
+    fetch(`http://${HOST}:5001/player/rating/${player.username}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
