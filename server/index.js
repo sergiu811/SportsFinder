@@ -29,6 +29,7 @@ app.use(express.json());
 app.use("/auth", authRouter);
 app.use(courRouter);
 app.use(playerRouter);
+
 socket.use(authorizeUser);
 socket.on("connection", (socket) => {
   initializeUser(socket);
