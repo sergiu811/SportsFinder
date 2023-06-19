@@ -55,14 +55,18 @@ const useSocketSetup = (
       setMessages((prevMsgs) => [message, ...prevMsgs]);
     });
 
-    socket.on("connected", (status, username) => {
+    socket.on("userConnectionUpdate", (status, username) => {
       setFriendList((prevFriends) => {
-        return [...prevFriends].map((friend) => {
-          if (friend.username === username) {
-            friend.connected = status;
+        const updatedFriends = prevFriends.map((friend) => {
+          if (friend.username === username && status !== friend.connected) {
+            return {
+              ...friend,
+              connected: status,
+            };
           }
-          return friend;
+          return { ...friend };
         });
+        return updatedFriends;
       });
     });
 
@@ -72,7 +76,7 @@ const useSocketSetup = (
 
     return () => {
       socket.off("connect_error");
-      socket.off("connected");
+      socket.off("userConnectionUpdate");
       socket.off("friends");
       socket.off("messages");
       socket.off("dm");

@@ -30,7 +30,9 @@ const initializeUser = async (socket) => {
   const friendRooms = parsedFriendList.map((friend) => friend.userid);
 
   if (friendRooms.length > 0) {
-    socket.to(friendRooms).emit("connected", true, socket.user.username);
+    socket
+      .to(friendRooms)
+      .emit("userConnectionUpdate", true, socket.user.username);
   }
 
   try {
@@ -49,7 +51,6 @@ const initializeUser = async (socket) => {
     socket.emit("lobbies", distinctLobbies.rows, players);
   } catch (error) {
     console.log(error);
-    console.log("Cannot get the lobbyToPlayerMap");
   }
 
   socket.emit("friends", parsedFriendList);

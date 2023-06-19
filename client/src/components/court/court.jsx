@@ -10,11 +10,9 @@ import {
   Tab,
   VStack,
   Icon,
-  Divider,
 } from "@chakra-ui/react";
 
 import { FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
-import { HiChatBubbleLeftRight } from "react-icons/hi2";
 import MapComponent from "../map/map";
 import LobbyComponent from "./lobby-component";
 import CenteredSpinner from "../spinner";

@@ -9,6 +9,7 @@ import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import logo from "../../assets/logo-light.png";
 import { Box, Heading, Text } from "@chakra-ui/react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const validationSchema = Yup.object({
   username: Yup.string()
     .required("Username required")
@@ -17,13 +18,28 @@ const validationSchema = Yup.object({
   password: Yup.string()
     .required("Password required")
     .min(6, "Password too short")
-    .max(28, "Password too long"),
+    .max(28, "Password too long")
+    .matches(
+      /^(?=.*[A-Z])/,
+      "Password must contain at least one uppercase letter"
+    )
+    .matches(/^(?=.*\d)/, "Password must contain at least one number")
+    .matches(
+      /^(?=.*[@$!%*?&])/,
+      "Password must contain at least one special character"
+    ),
 });
 
 const SignUp = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(AccountContext);
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <Box className={Classes.background}>
       <Box className={Classes.stack}>
@@ -91,6 +107,7 @@ const SignUp = () => {
                   label="Username"
                 >
                   <Form.Control
+                    className="position-relative"
                     style={{
                       backgroundColor: "transparent",
                       borderColor: "white",
@@ -105,48 +122,86 @@ const SignUp = () => {
                     placeholder="username"
                     value={values.username}
                   ></Form.Control>
+
                   <Form.Control.Feedback
-                    style={{ fontWeight: "bold" }}
+                    style={{
+                      fontWeight: "bold",
+                      textAlign: "left",
+                      marginLeft: "5px",
+                    }}
                     type="invalid"
                   >
                     {errors.username}
                   </Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
-              <Form.Group className="mb-3">
-                <FloatingLabel
-                  style={{
-                    backgroundColor: "transparent",
-                    borderColor: "white",
-                    color: "white",
-                    fontWeight: "bold",
-                  }}
-                  label="Password"
-                >
-                  <Form.Control
+              <div style={{ display: "flex", position: "relative" }}>
+                <Form.Group style={{ width: "80%" }} className="mb-3">
+                  <FloatingLabel
+                    className="position-relative"
                     style={{
                       backgroundColor: "transparent",
                       borderColor: "white",
                       color: "white",
                       fontWeight: "bold",
                     }}
-                    onChange={handleChange}
-                    isValid={touched.password && !errors.password}
-                    isInvalid={touched.password && errors.password}
-                    onBlur={handleBlur}
-                    name="password"
-                    value={values.password}
-                    placeholder="password"
-                    type="password"
-                  ></Form.Control>
-                  <Form.Control.Feedback
-                    style={{ fontWeight: "bold" }}
-                    type="invalid"
+                    label="Password"
                   >
-                    {errors.password}
-                  </Form.Control.Feedback>
-                </FloatingLabel>
-              </Form.Group>
+                    <Form.Control
+                      className="position-relative"
+                      style={{
+                        backgroundColor: "transparent",
+                        borderColor: "white",
+                        color: "white",
+                        fontWeight: "bold",
+                        borderRadius: ".375rem 0px 0px .375rem",
+                      }}
+                      onChange={handleChange}
+                      isValid={touched.password && !errors.password}
+                      isInvalid={touched.password && errors.password}
+                      onBlur={handleBlur}
+                      name="password"
+                      value={values.password}
+                      placeholder="password"
+                      type={showPassword ? "text" : "password"}
+                    ></Form.Control>
+
+                    <Form.Control.Feedback
+                      style={{
+                        fontWeight: "bold",
+                        textAlign: "left",
+                        marginLeft: "5px",
+                      }}
+                      type="invalid"
+                    >
+                      {errors.password}
+                    </Form.Control.Feedback>
+                  </FloatingLabel>
+                </Form.Group>
+                <Button
+                  onClick={togglePasswordVisibility}
+                  style={{
+                    display: "flex",
+                    position: "absolute",
+                    right: "1px",
+                    height: "28px",
+                    padding: "28px",
+                    borderRight: "1px solid white",
+                    borderBottom: "1px solid white",
+                    borderTop: "1px solid white",
+                    borderLeft: "none",
+                    borderRadius: "0px .375rem .375rem 0px ",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    background: "none",
+                    cursor: "pointer",
+                    paddingRight: "20px",
+                    color: showPassword ? "white" : "white",
+                  }}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </Button>
+              </div>
               <Button
                 className="mb-3"
                 style={{ fontWeight: "bold", marginTop: "30px" }}

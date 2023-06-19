@@ -13,13 +13,14 @@ const jwtSign = (payload, secret, options) =>
 
 const jwtVerify = (token, secret) =>
   new Promise((resolve, reject) => {
-    jwt.verify(token, secret, (err, decoded) => {
-      if (err) {
-        console.log("Bad request");
-        reject(err);
-      }
-      resolve(decoded);
-    });
+    if (token && secret) {
+      jwt.verify(token, secret, (err, decoded) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(decoded);
+      });
+    }
   });
 
 const getJwt = (req) => req.headers["authorization"]?.split(" ")[1];

@@ -9,6 +9,7 @@ import { AccountContext } from "../account-context";
 import { useContext, useState } from "react";
 import logo from "../../assets/logo-light.png";
 import { Box, Heading, Text } from "@chakra-ui/react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const validationSchema = Yup.object({
   username: Yup.string()
@@ -25,6 +26,11 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(AccountContext);
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   return (
     <Box className={Classes.background}>
       <Box className={Classes.stack}>
@@ -106,47 +112,83 @@ const Login = () => {
                     value={values.username}
                   ></Form.Control>
                   <Form.Control.Feedback
-                    style={{ fontWeight: "bold" }}
+                    style={{
+                      fontWeight: "bold",
+                      textAlign: "left",
+                      marginLeft: "5px",
+                    }}
                     type="invalid"
                   >
                     {errors.username}
                   </Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
-              <Form.Group className="mb-3">
-                <FloatingLabel
-                  style={{
-                    backgroundColor: "transparent",
-                    borderColor: "white",
-                    color: "white",
-                    fontWeight: "bold",
-                  }}
-                  label="Password"
-                >
-                  <Form.Control
+              <div style={{ display: "flex", position: "relative" }}>
+                <Form.Group style={{ width: "80%" }} className="mb-3">
+                  <FloatingLabel
                     style={{
                       backgroundColor: "transparent",
                       borderColor: "white",
+                      borderRadius: ".375rem 0px 0px .375rem",
                       color: "white",
                       fontWeight: "bold",
                     }}
-                    onChange={handleChange}
-                    isInvalid={touched.password && errors.password}
-                    isValid={touched.password && !errors.password}
-                    onBlur={handleBlur}
-                    name="password"
-                    value={values.password}
-                    placeholder="password"
-                    type="password"
-                  ></Form.Control>
-                  <Form.Control.Feedback
-                    style={{ fontWeight: "bold" }}
-                    type="invalid"
+                    label="Password"
                   >
-                    {errors.password}
-                  </Form.Control.Feedback>
-                </FloatingLabel>
-              </Form.Group>
+                    <Form.Control
+                      style={{
+                        backgroundColor: "transparent",
+                        borderColor: "white",
+                        color: "white",
+                        fontWeight: "bold",
+                        borderRadius: ".375rem 0px 0px .375rem",
+                      }}
+                      onChange={handleChange}
+                      isInvalid={touched.password && errors.password}
+                      isValid={touched.password && !errors.password}
+                      onBlur={handleBlur}
+                      name="password"
+                      value={values.password}
+                      placeholder="password"
+                      type={showPassword ? "text" : "password"}
+                    ></Form.Control>
+
+                    <Form.Control.Feedback
+                      style={{
+                        textAlign: "left",
+                        marginLeft: "5px",
+                        fontWeight: "bold",
+                      }}
+                      type="invalid"
+                    >
+                      {errors.password}
+                    </Form.Control.Feedback>
+                  </FloatingLabel>
+                </Form.Group>
+                <Button
+                  onClick={togglePasswordVisibility}
+                  style={{
+                    display: "flex",
+                    position: "absolute",
+                    right: "1px",
+                    height: "28px",
+                    padding: "28px",
+                    borderRight: "1px solid white",
+                    borderBottom: "1px solid white",
+                    borderTop: "1px solid white",
+                    borderLeft: "none",
+                    borderRadius: "0px .375rem .375rem 0px ",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    background: "none",
+                    cursor: "pointer",
+                    paddingRight: "20px",
+                    color: showPassword ? "white" : "white",
+                  }}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </Button>
+              </div>
               <Button
                 className="mb-3"
                 style={{ fontWeight: "bold", marginTop: "30px" }}

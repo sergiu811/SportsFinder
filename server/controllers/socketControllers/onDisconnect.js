@@ -11,7 +11,9 @@ const onDisconnect = async (socket) => {
   const friendRooms = await parseFriendList(friendList).then((friends) =>
     friends.map((friend) => friend.userid)
   );
-  socket.to(friendRooms).emit("connected", false, socket.user.username);
+  socket
+    .to(friendRooms)
+    .emit("userConnectionUpdate", false, socket.user.username);
 };
 
 module.exports = onDisconnect;

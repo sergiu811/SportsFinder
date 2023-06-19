@@ -42,7 +42,6 @@ socket.on("connection", (socket) => {
   });
 
   socket.on("dm", (message) => {
-    console.log(socket.id);
     dm(socket, message);
   });
 
