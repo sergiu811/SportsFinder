@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { useGlobalContext } from "../../context";
 import { useEffect, useState } from "react";
-const Lobby = () => {
+const Lobby = ({ court }) => {
   const {
     socket,
     selectedDate,
@@ -129,7 +129,12 @@ const Lobby = () => {
       <VStack alignItems={"flex-start"} width="95%" margin="auto">
         <HStack justifyContent={"space-between"} width="100%">
           <HStack>
-            <Heading fontSize={"25px"} color="rgba(240,240,240,0.9)">
+            <Heading color="rgba(240,240,240,0.9)" fontSize={"24px"}>
+              {court.court_name}
+            </Heading>
+          </HStack>
+          <HStack>
+            <Heading fontSize={"24px"} color="rgba(240,240,240,0.9)">
               Lobby Occupancy
             </Heading>
             <Progress

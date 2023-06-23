@@ -9,14 +9,14 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-const LobbyComponent = () => {
+const LobbyComponent = ({ court }) => {
   return (
     <Grid templateColumns="repeat(10, 1fr)" as={Tabs} h="80vh">
       <GridItem borderRight="1px solid grey" colSpan="2" minWidth="210px">
         <LobbySelection />
       </GridItem>
       <GridItem maxH="82vh" colSpan="8">
-        <Lobby />
+        <Lobby court={court} />
       </GridItem>
     </Grid>
   );

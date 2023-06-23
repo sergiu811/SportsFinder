@@ -6,6 +6,7 @@ import {
   GridItem,
   HStack,
   Image,
+  Tooltip,
 } from "@chakra-ui/react";
 import classes from "./toolbar.module.css";
 import logoLight from "../../assets/logo-light.png";
@@ -50,19 +51,21 @@ const Toolbar = () => {
       >
         <GridItem textAlign="center" position="relative">
           <AbsoluteCenter>
-            <NavLink
-              to="home"
-              className={({ isActive }) =>
-                isActive ? classes.imageActive : classes.default
-              }
-            >
-              <Image
-                boxSize="9vh"
-                borderRadius="full"
-                objectFit="contain"
-                src={logoLight}
-              ></Image>
-            </NavLink>
+            <Tooltip label="Home" hasArrow>
+              <NavLink
+                to="home"
+                className={({ isActive }) =>
+                  isActive ? classes.imageActive : classes.default
+                }
+              >
+                <Image
+                  boxSize="9vh"
+                  borderRadius="full"
+                  objectFit="contain"
+                  src={logoLight}
+                ></Image>
+              </NavLink>
+            </Tooltip>
           </AbsoluteCenter>
         </GridItem>
 
@@ -72,27 +75,33 @@ const Toolbar = () => {
             <AbsoluteCenter>
               <AbsoluteCenter>
                 <HStack gap={"50px"}>
-                  <NavLink
-                    to="/friends"
-                    className={({ isActive }) =>
-                      isActive ? classes.active : classes.default
-                    }
-                  >
-                    <FaUserFriends size={30} />
-                  </NavLink>
-                  <NavLink
-                    to="/profile"
-                    className={({ isActive }) =>
-                      isActive ? classes.active : classes.default
-                    }
-                  >
-                    <HStack>
-                      <CgProfile size={30}></CgProfile>
-                    </HStack>
-                  </NavLink>
-                  <NavLink className={classes.default} onClick={handleLogout}>
-                    <FiLogOut size={30}></FiLogOut>
-                  </NavLink>
+                  <Tooltip label="Socialize" hasArrow>
+                    <NavLink
+                      to="/friends"
+                      className={({ isActive }) =>
+                        isActive ? classes.active : classes.default
+                      }
+                    >
+                      <FaUserFriends size={30} />
+                    </NavLink>
+                  </Tooltip>
+                  <Tooltip label="Profile" hasArrow>
+                    <NavLink
+                      to="/profile"
+                      className={({ isActive }) =>
+                        isActive ? classes.active : classes.default
+                      }
+                    >
+                      <HStack>
+                        <CgProfile size={30}></CgProfile>
+                      </HStack>
+                    </NavLink>
+                  </Tooltip>
+                  <Tooltip label="Logout" hasArrow>
+                    <NavLink className={classes.default} onClick={handleLogout}>
+                      <FiLogOut size={30}></FiLogOut>
+                    </NavLink>
+                  </Tooltip>
                 </HStack>
               </AbsoluteCenter>
             </AbsoluteCenter>
@@ -102,4 +111,5 @@ const Toolbar = () => {
     </Box>
   );
 };
+
 export default Toolbar;

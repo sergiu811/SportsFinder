@@ -10,6 +10,7 @@ import {
   Tab,
   VStack,
   Icon,
+  Tooltip,
 } from "@chakra-ui/react";
 
 import { FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
@@ -58,22 +59,26 @@ const CourtPage = () => {
         shadow={"dark-lg"}
       >
         <VStack as={TabList} h="80vh" border="none" pt="45px">
-          <Tab>
-            <Icon
-              color={"white"}
-              width="30px"
-              height="30px"
-              as={FaUserFriends}
-            />
-          </Tab>
-          <Tab>
-            <Icon
-              color={"white"}
-              width="30px"
-              height="30px"
-              as={FaMapMarkedAlt}
-            />
-          </Tab>
+          <Tooltip label="Lobby" hasArrow>
+            <Tab>
+              <Icon
+                color={"white"}
+                width="30px"
+                height="30px"
+                as={FaUserFriends}
+              />
+            </Tab>
+          </Tooltip>
+          <Tooltip label="Map" hasArrow>
+            <Tab>
+              <Icon
+                color={"white"}
+                width="30px"
+                height="30px"
+                as={FaMapMarkedAlt}
+              />
+            </Tab>
+          </Tooltip>
         </VStack>
       </GridItem>
       <GridItem
@@ -86,7 +91,7 @@ const CourtPage = () => {
       >
         <TabPanels>
           <TabPanel>
-            <LobbyComponent />
+            <LobbyComponent court={court} />
           </TabPanel>
           <TabPanel>
             {latitude && latitude != 0 ? (

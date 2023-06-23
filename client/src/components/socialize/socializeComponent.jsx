@@ -9,6 +9,7 @@ import {
   VStack,
   HStack,
   Icon,
+  Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
 import FriendsChatComponent from "../friends-chat/friends-chat-component";
@@ -35,27 +36,33 @@ const SocializeCompoenent = () => {
         shadow={"dark-lg"}
       >
         <VStack as={TabList} h="80vh" border="none" pt="45px">
-          <Tab>
-            <Icon
-              color={"white"}
-              width="30px"
-              height="30px"
-              as={HiChatBubbleLeftRight}
-            />
-          </Tab>
-          <Tab>
-            <Badge count={friendRequestList.length}>
+          <Tooltip label="Friends" hasArrow>
+            <Tab>
               <Icon
                 color={"white"}
                 width="30px"
                 height="30px"
-                as={SiHandshake}
+                as={HiChatBubbleLeftRight}
               />
-            </Badge>
-          </Tab>
-          <HStack onClick={onOpen}>
-            <Icon width="30px" height="30px" as={FaUserPlus} />
-          </HStack>
+            </Tab>
+          </Tooltip>
+          <Tooltip label="Friend Requests" hasArrow>
+            <Tab>
+              <Badge count={friendRequestList.length}>
+                <Icon
+                  color={"white"}
+                  width="30px"
+                  height="30px"
+                  as={SiHandshake}
+                />
+              </Badge>
+            </Tab>
+          </Tooltip>
+          <Tooltip label="Add Friend" hasArrow>
+            <HStack onClick={onOpen}>
+              <Icon width="30px" height="30px" as={FaUserPlus} />
+            </HStack>
+          </Tooltip>
         </VStack>
         <AddFriendModal isOpen={isOpen} onClose={onClose} />
       </GridItem>
