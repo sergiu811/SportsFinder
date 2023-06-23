@@ -18,7 +18,6 @@ const AppProvider = ({ children }) => {
   const [players, setPlayers] = useState(new Map());
   const [message, setDisplayMessage] = useState();
   const [error, setErrorMessage] = useState();
-  const [trigger, setTrigger] = useState(0);
   const [placement, setPlacement] = useState("top");
 
   const [selectedDate, setSelectedDate] = useState(
@@ -57,22 +56,22 @@ const AppProvider = ({ children }) => {
     if (message) {
       openNotification(message, "success");
     }
-  }, [message, trigger]);
+    setMessage("");
+  }, [message]);
 
   useEffect(() => {
     if (error) {
       openNotification(error, "error");
     }
-  }, [error, trigger]);
+    setError("");
+  }, [error]);
 
   const setError = (errorMessage) => {
     setErrorMessage(errorMessage);
-    setTrigger((prevTrigger) => prevTrigger + 1);
   };
 
   const setMessage = (message) => {
     setDisplayMessage(message);
-    setTrigger((prevTrigger) => prevTrigger + 1);
   };
 
   useSocketSetup(
@@ -106,6 +105,7 @@ const AppProvider = ({ children }) => {
         setPlayers,
         setMessage,
         setError,
+
         setPlacement,
       }}
     >

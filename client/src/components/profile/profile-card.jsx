@@ -56,7 +56,7 @@ const ProfileCard = () => {
 
   const handleUpdate = async () => {
     try {
-      if (height !== user.height || age !== user.age) {
+      if (parseInt(height) !== user.height || parseInt(age) !== user.age) {
         if ((height && height <= 0) || (age && age <= 0)) {
           setError("Height and age must be greater than 0.");
           setHeight(user.height);
@@ -80,7 +80,7 @@ const ProfileCard = () => {
 
         if (response.ok) {
           setMessage("User details updated successfully!");
-          setUser({ ...user, age: age, height: height });
+          getUserDetails();
         } else {
           setError("Failed to update user details");
         }

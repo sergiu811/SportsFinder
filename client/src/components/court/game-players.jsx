@@ -1,6 +1,6 @@
 import { Box, Divider, Heading, HStack, VStack } from "@chakra-ui/react";
 import LobbyPlayer from "./lobby-player";
-const GamePlayers = ({ players, selectedData }) => {
+const GamePlayers = ({ players, selectedData, timeInterval }) => {
   return (
     <Box>
       <VStack>
@@ -15,6 +15,9 @@ const GamePlayers = ({ players, selectedData }) => {
           >
             <Heading color="rgba(240,240,240,0.9)" fontSize={"25px"}>
               Players in the lobby
+            </Heading>
+            <Heading color="rgba(240,240,240,0.9)" fontSize={"20px"}>
+              Time Interval: {timeInterval}
             </Heading>
             <Heading color="rgba(240,240,240,0.9)" fontSize={"20px"}>
               Date: {selectedData}

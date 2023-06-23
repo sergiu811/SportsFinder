@@ -19,6 +19,28 @@ const LobbyHistory = () => {
   const [players, setPlayers] = useState([]);
   const [selectedData, setSelectedDate] = useState("");
   const [activeGame, setActiveGame] = useState(null);
+  const [selectedTime, setSelectedTime] = useState("");
+  const [time_intervals, setTimeIntervals] = useState([]);
+
+  useEffect(() => {
+    async function fetchTimeInterval() {
+      try {
+        const response = await fetch("http://localhost:5001/time_intervals");
+        const data = await response.json();
+        const options = data.map((option) => {
+          return {
+            value: option.time_id,
+            label: option.time_interval,
+          };
+        });
+
+        setTimeIntervals(options);
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+    fetchTimeInterval();
+  }, []);
 
   const getGameHistory = async () => {
     const decodedToken = jwt_decode(localStorage.getItem("token"));
@@ -43,6 +65,12 @@ const LobbyHistory = () => {
       setPlayers(response);
       setSelectedDate(game.date);
       setActiveGame(game);
+
+      console.log(game.time_id);
+      const time = time_intervals.filter((time) => {
+        return time.value === game.time_id;
+      });
+      setSelectedTime(time[0].label);
     } catch (error) {
       setError(error);
     }
@@ -70,7 +98,7 @@ const LobbyHistory = () => {
               </Heading>
             </Box>
             <Divider></Divider>
-            <VStack w={"100%"} overflowY="scroll">
+            <VStack w={"100%"} maxH={"75vh"} overflowY="scroll">
               {games.length > 0 ? (
                 games.map((game, index) => {
                   const isActive = game === activeGame;
@@ -84,7 +112,7 @@ const LobbyHistory = () => {
                         colorScheme={isActive ? "orange" : "gray"}
                         variant={isActive ? "solid" : "outline"}
                       >
-                        {game.court_name}
+                        {game.court_name} {game.date}
                       </Button>
                       <Divider></Divider>
                     </Box>
@@ -100,6 +128,7 @@ const LobbyHistory = () => {
           <GamePlayers
             players={players}
             selectedData={selectedData}
+            timeInterval={selectedTime}
           ></GamePlayers>
         </GridItem>
       </Grid>

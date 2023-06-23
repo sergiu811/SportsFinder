@@ -10,7 +10,7 @@ import { FaStar, FaRegStar, FaStarHalf } from "react-icons/fa";
 import { useGlobalContext } from "../../context";
 
 const ProfileModal = ({ isOpen, onClose, player }) => {
-  const { setError, setMessage, setPlacement } = useGlobalContext();
+  const { setError, setMessage } = useGlobalContext();
   const giveRating = (value) => {
     fetch(`http://localhost:5001/player/rating/${player.username}`, {
       method: "POST",
@@ -22,9 +22,13 @@ const ProfileModal = ({ isOpen, onClose, player }) => {
       .then((response) => {
         if (response.ok) {
           setMessage("Player rating updated successfully");
+          return response.json();
         } else {
-          setError(`Error updating player rating: ${response.status}`);
+          throw new Error(`Error updating player rating: ${response.status}`);
         }
+      })
+      .then((data) => {
+        player.rating = data.rating;
       })
       .catch((error) => {
         setError(`Error updating player rating: ${error}`);
